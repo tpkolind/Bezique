@@ -1,4 +1,6 @@
 {
   "name": "Bezique-Ionic",
-  "app_id": ""
+  "app_id": "",
+  "v2": true,
+  "typescript": true
 }
