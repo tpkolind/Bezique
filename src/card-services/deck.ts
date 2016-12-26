@@ -88,4 +88,8 @@ export class Deck {
             }
         }
     }
+
+    public draw() : PlayingCard {
+        return this.playingCards.shift();
+    }
 }

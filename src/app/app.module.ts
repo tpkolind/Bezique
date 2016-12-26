@@ -4,7 +4,8 @@ import { MyApp } from './app.component';
 import { PlayerPage } from '../pages/player-page/player-page';
 import { DeckPage } from '../pages/deck-page/deck-page';
 import { GamePage } from '../pages/game-page/game-page';
-import { CardCollection } from '../pages/card-collection/card-collection'
+import { CardCollection } from '../components/card-collection/card-collection'
+import { PlayerComponent } from '../components/player/player'
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { CardCollection } from '../pages/card-collection/card-collection'
     DeckPage,
     GamePage,
     CardCollection,
+    PlayerComponent,
   ],
   imports: [
     IonicModule.forRoot(MyApp)

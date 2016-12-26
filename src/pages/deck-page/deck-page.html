@@ -1,9 +1,14 @@
 <ion-header>
   <ion-navbar>
     <ion-title>Deck</ion-title>
+    <ion-buttons end>
+      <button ion-button color="default" (click)="doDeal()">
+        Deal
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-  <card-collection [cards]="deck.playingCards"></card-collection>
+  <card-collection [cards]="game.deck.playingCards"></card-collection>
 </ion-content>

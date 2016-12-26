@@ -12,10 +12,14 @@ import { NavController } from 'ionic-angular';
 export class DeckPage {
 
   @Input()
-  public deck : Deck;
+  public game : BeziqueCardGame;
 
   constructor(public navCtrl: NavController, private beziqueCardGame : BeziqueCardGame) {
-    this.deck = beziqueCardGame.deck;
+    this.game = beziqueCardGame;
+  }
+
+  public doDeal() {
+    this.game.deal();
   }
 
 }
