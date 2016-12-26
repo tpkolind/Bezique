@@ -4,7 +4,7 @@ import { Deck, PlayingCard, beziqueDeckConfiguration } from './deck';
 export class CardPlayer {
     public hand : PlayingCard[] = [];
     
-    constructor (public name) {
+    constructor (public name : string) {
 
     }
 }
@@ -15,7 +15,7 @@ export class CardGame {
 
     constructor () { }
 
-    public createPlayer(name) {
+    public createPlayer(name : string) {
         this.player.push(new CardPlayer(name));
     }
 }
