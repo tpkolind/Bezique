@@ -1,6 +1,7 @@
+import { Injectable } from '@angular/core'
 import { Deck, PlayingCard, beziqueDeckConfiguration } from './deck';
 
-class CardPlayer {
+export class CardPlayer {
     public hand : PlayingCard[] = [];
     
     constructor (public name) {
@@ -19,12 +20,13 @@ export class CardGame {
     }
 }
 
+@Injectable()
 export class BeziqueCardGame extends CardGame {
-    constructor (playerOneName : string, playerTwoName : string) {
+    constructor () {
         super();
         this.deck = new Deck(beziqueDeckConfiguration);
 
-        this.createPlayer(playerOneName);
-        this.createPlayer(playerTwoName);
+        this.createPlayer('Player One');
+        this.createPlayer('Player Two');
     }
 }
