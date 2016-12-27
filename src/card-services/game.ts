@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { Deck, PlayingCard, CardStack, beziqueDeckConfiguration } from './deck';
+import { Deck, PlayingCard, beziqueDeckConfiguration } from './deck';
 import { CardPlayer } from './player';
 
 export class CardGame {

@@ -1,5 +1,4 @@
-import { Component, Input } from '@angular/core';
-import { Deck } from '../../card-services/deck';
+import { Component } from '@angular/core';
 import { BeziqueCardGame } from '../../card-services/game'
 
 import { NavController } from 'ionic-angular';
