@@ -28,4 +28,10 @@
       <ion-checkbox>KC, QC</ion-checkbox>
     </ion-item>
   </ion-list>
+  <ion-item-divider *ngIf="!player.wonCards.isEmpty()">
+    Won cards
+  </ion-item-divider>
+  <ion-item *ngIf="!player.wonCards.isEmpty()">
+    {{ player.wonCards.toString() }}
+  </ion-item>
 </ion-card>
