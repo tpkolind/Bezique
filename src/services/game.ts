@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { Deck, PlayingCard, beziqueDeckConfiguration } from './deck';
-import { CardPlayer } from './player';
+import { CardPlayer, defaultPlayerConfiguration } from './player';
 
 export class CardGame {
     public deck : Deck;
@@ -13,7 +13,7 @@ export class CardGame {
     constructor () { }
 
     public createPlayer(name : string) {
-        this.players.push(new CardPlayer(name, this));
+        this.players.push(new CardPlayer(name, this, defaultPlayerConfiguration));
     }
 
     public deal() { }
@@ -29,6 +29,9 @@ export class CardGame {
         nextTurnIndex++;
         nextTurnIndex = nextTurnIndex === this.players.length ? 0 : nextTurnIndex;
         this.inTurn = this.players[nextTurnIndex];
+    }
+
+    public completeRound() {
     }
 
 }

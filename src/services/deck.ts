@@ -46,6 +46,10 @@ export class PlayingCard {
         return this.rank + this.suit;
     }
 
+    public toString() {
+        return this.shortName();
+    }
+
     public longName() {
         return Ranks[this.rank] + ' of ' + Suits[this.suit];
     }
@@ -55,13 +59,18 @@ export class CardStack {
     public stack : PlayingCard[] = [];
 
     public add(playingCard : PlayingCard) {
-        this.stack.push(playingCard);
+        if (playingCard) {
+            this.stack.push(playingCard);
+        }
     }
 
     public remove(playingCard : PlayingCard) {
         var selectedCardIndex = this.stack.indexOf(playingCard);
         if (selectedCardIndex > -1) {
             this.stack.splice(selectedCardIndex, 1);
+            return playingCard;
+        } else {
+            return undefined;
         }
     }
 
@@ -73,6 +82,18 @@ export class CardStack {
         var oldCard = this.stack[oldPosition];
         this.stack[oldPosition] = this.stack[newPosition];
         this.stack[newPosition] = oldCard;
+    }
+
+    public moveToStack(card : PlayingCard, newStack : CardStack) {
+        newStack.add(this.remove(card));
+    }
+
+    public clear() {
+        this.stack = [];
+    }
+
+    public toString() {
+        return this.stack.join(', ');
     }
 
 }
