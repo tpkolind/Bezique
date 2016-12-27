@@ -1,4 +1,12 @@
-<ion-list>
-  <ion-item-divider>{{ player.name }}</ion-item-divider>
-  <card-collection [cards]="player.hand"></card-collection>
-</ion-list>
+<ion-card>
+  <ion-item-divider>
+    <button ion-button outline item-left color="default" (click)="doDraw(player)" [disabled]="!(player.hand.stack.length < 8)">
+      Draw
+    </button>
+    {{ player.name }}
+    <button ion-button outline item-right color="default" (click)="doPlay(player)" [disabled]="!(player.selectedCards.stack.length  === 1)">
+      Play
+    </button>
+  </ion-item-divider>
+  <card-collection [cardStack]="player.hand" [selectedStack]="player.selectedCards"></card-collection>
+</ion-card>

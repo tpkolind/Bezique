@@ -40,6 +40,8 @@ export class PlayingCard {
     constructor (public rank : string, public suit : string) {
     }
 
+    public selected : boolean = false;
+
     public shortName() {
         return this.rank + this.suit;
     }
@@ -49,15 +51,41 @@ export class PlayingCard {
     }
 }
 
+export class CardStack {
+    public stack : PlayingCard[] = [];
+
+    public add(playingCard : PlayingCard) {
+        this.stack.push(playingCard);
+    }
+
+    public remove(playingCard : PlayingCard) {
+        var selectedCardIndex = this.stack.indexOf(playingCard);
+        if (selectedCardIndex > -1) {
+            this.stack.splice(selectedCardIndex, 1);
+        }
+    }
+
+    public draw() {
+        return this.stack.shift();
+    }
+
+    public swapCards(oldPosition, newPosition) {
+        var oldCard = this.stack[oldPosition];
+        this.stack[oldPosition] = this.stack[newPosition];
+        this.stack[newPosition] = oldCard;
+    }
+
+}
+
 export class Deck {
-    public playingCards: PlayingCard[] = [];
+    public playingCards: CardStack = new CardStack();
     constructor (private config) {
         this.resetDeck();
         this.shuffle();
     }
 
     public resetDeck() {
-        this.playingCards = [];
+        this.playingCards = new CardStack();
         // For each deck
         for (var deck = 0; deck < this.config.decks; deck++) {
             // For each rank
@@ -65,31 +93,29 @@ export class Deck {
                 // For each suit
                 for (var suit in this.config.suits) {
                     // Create a playing card and put it in the deck
-                    this.playingCards.push(new PlayingCard(this.config.ranks[rank], this.config.suits[suit]));
+                    this.playingCards.add(new PlayingCard(this.config.ranks[rank], this.config.suits[suit]));
                 }
             }
 
             // For each joker
             for (var joker = 0; joker < this.config.jokers; joker++) {
-                this.playingCards.push(new PlayingCard('N', undefined));
+                this.playingCards.add(new PlayingCard('N', undefined));
             }
         }
     }
 
     public shuffle(numberOfTimes = 5) {
         var randomPosition = 0;
-        var oldCard;
         for (var shuffleRound = 0; shuffleRound < numberOfTimes; shuffleRound++) {
-            for (var cardNumber = 0; cardNumber < this.playingCards.length; cardNumber++) {
-                randomPosition = Math.floor(Math.random() * this.playingCards.length);
-                oldCard = this.playingCards[cardNumber];
-                this.playingCards[cardNumber] = this.playingCards[randomPosition];
-                this.playingCards[randomPosition] = oldCard;
+            for (var cardNumber = 0; cardNumber < this.playingCards.stack.length; cardNumber++) {
+                randomPosition = Math.floor(Math.random() * this.playingCards.stack.length);
+                this.playingCards.swapCards(cardNumber, randomPosition)
+                
             }
         }
     }
 
     public draw() : PlayingCard {
-        return this.playingCards.shift();
+        return this.playingCards.draw();
     }
 }

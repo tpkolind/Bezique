@@ -1,4 +1,17 @@
 <ion-tabs>
-  <ion-tab [root]="deckTab" tabTitle="Deck" tabIcon="flame"></ion-tab>
-  <ion-tab [root]="playerTab" tabTitle="Players" tabIcon="contacts"></ion-tab>
+  <ion-tab 
+    [root]="deckTab"
+    tabTitle="Deck"
+    tabIcon="flame" 
+    [tabBadge]="beziqueCardGame.deck.playingCards.stack.length"
+    tabBadgeStyle="danger">
+  </ion-tab>
+  <ion-tab 
+    [root]="playerTab"
+    tabTitle="Players" 
+    tabIcon="contacts" 
+    [tabBadge]="beziqueCardGame.player.length" 
+    tabBadgeStyle="danger">
+  </ion-tab>
+  <ion-tab [root]="tableTab" tabTitle="Table" tabIcon="clipboard"></ion-tab>
 </ion-tabs>

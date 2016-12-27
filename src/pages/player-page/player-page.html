@@ -1,12 +1,20 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>
-      Players
-    </ion-title>
+    <ion-buttons start>
+      <button ion-button color="default" (click)="doReset()">
+        Reset
+      </button>
+    </ion-buttons>
+    <ion-title>Players</ion-title>
+    <ion-buttons end>
+      <button ion-button color="default" (click)="doDeal()" [disabled]="beziqueCardGame.dealt">
+        Deal
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-  <player [player]="game.player[0]"></player>
-  <player [player]="game.player[1]"></player>  
+  <player [player]="beziqueCardGame.player[0]"></player>
+  <player [player]="beziqueCardGame.player[1]"></player>  
 </ion-content>

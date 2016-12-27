@@ -4,6 +4,7 @@ import { MyApp } from './app.component';
 import { PlayerPage } from '../pages/player-page/player-page';
 import { DeckPage } from '../pages/deck-page/deck-page';
 import { GamePage } from '../pages/game-page/game-page';
+import { TablePage } from '../pages/table/table';
 import { CardCollection } from '../components/card-collection/card-collection'
 import { PlayerComponent } from '../components/player/player'
 
@@ -12,6 +13,7 @@ import { PlayerComponent } from '../components/player/player'
     MyApp,
     PlayerPage,
     DeckPage,
+    TablePage,
     GamePage,
     CardCollection,
     PlayerComponent,
@@ -24,7 +26,8 @@ import { PlayerComponent } from '../components/player/player'
     MyApp,
     PlayerPage,
     DeckPage,
-    GamePage
+    TablePage,
+    GamePage,
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
 })

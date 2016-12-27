@@ -1,19 +1,22 @@
 import { Component, Input } from '@angular/core';
-import { CardPlayer, BeziqueCardGame } from '../../card-services/game'
-
 import { NavController, NavParams } from 'ionic-angular';
+import { BeziqueCardGame } from '../../card-services/game';
 
 @Component({
   selector: 'player-page',
-  templateUrl: 'player-page.html'
+  templateUrl: 'player-page.html',
+  providers: []
 })
 export class PlayerPage {
 
-  @Input()
-  public game : BeziqueCardGame;
-
-  constructor(public navCtrl: NavController, private navParams : NavParams, private beziqueCardGame : BeziqueCardGame) {
-    this.game = beziqueCardGame;
+  constructor(public navCtrl: NavController, public beziqueCardGame : BeziqueCardGame) {
   }
 
+  public doDeal() {
+    this.beziqueCardGame.deal();
+  }
+
+  public doReset() {
+    this.beziqueCardGame.reset();
+  }
 }

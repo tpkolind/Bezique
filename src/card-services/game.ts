@@ -1,49 +1,52 @@
 import { Injectable } from '@angular/core'
-import { Deck, PlayingCard, beziqueDeckConfiguration } from './deck';
-
-export class CardPlayer {
-    public hand : PlayingCard[] = [];
-    
-    constructor (public name : string) {
-
-    }
-
-    public draw(numberOfCards : Number, deck : Deck) {
-        for (var cardNumber = 0; cardNumber < numberOfCards; cardNumber++) {
-            this.hand.push(deck.draw());
-        }
-    }
-}
+import { Deck, PlayingCard, CardStack, beziqueDeckConfiguration } from './deck';
+import { CardPlayer } from './player';
 
 export class CardGame {
     public deck : Deck;
     public player : CardPlayer[] = [];
+    public dealt : Boolean = false;
+    public visibleCard : PlayingCard;
 
     constructor () { }
 
     public createPlayer(name : string) {
-        this.player.push(new CardPlayer(name));
+        this.player.push(new CardPlayer(name, this));
     }
 
     public deal() { }
+
+    public reset() { 
+        this.dealt = false;
+        this.player = [];
+        this.visibleCard = undefined;
+    }
 }
 
 @Injectable()
 export class BeziqueCardGame extends CardGame {
     constructor () {
         super();
-        this.deck = new Deck(beziqueDeckConfiguration);
-
-        this.createPlayer('Player One');
-        this.createPlayer('Player Two');
+        this.reset();
     }
 
     public deal()  {
-        this.player[0].draw(3, this.deck);
-        this.player[1].draw(3, this.deck);
-        this.player[0].draw(2, this.deck);
-        this.player[1].draw(2, this.deck);
-        this.player[0].draw(3, this.deck);
-        this.player[1].draw(3, this.deck);
+        this.player[0].draw(3);
+        this.player[1].draw(3);
+        this.player[0].draw(2);
+        this.player[1].draw(2);
+        this.player[0].draw(3);
+        this.player[1].draw(3);
+
+        this.visibleCard = this.deck.draw();
+
+        this.dealt = true;
+    }
+
+    public reset() {
+        super.reset();
+        this.deck = new Deck(beziqueDeckConfiguration);
+        this.createPlayer('Player One');
+        this.createPlayer('Player Two');
     }
 }

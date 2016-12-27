@@ -7,19 +7,19 @@ import { NavController } from 'ionic-angular';
 @Component({
   selector: 'deck-page',
   templateUrl: 'deck-page.html',
-  providers: [ BeziqueCardGame ]
+  providers: []
 })
 export class DeckPage {
 
-  @Input()
-  public game : BeziqueCardGame;
-
-  constructor(public navCtrl: NavController, private beziqueCardGame : BeziqueCardGame) {
-    this.game = beziqueCardGame;
+  constructor(public navCtrl: NavController, public beziqueCardGame : BeziqueCardGame) {
   }
 
   public doDeal() {
-    this.game.deal();
+    this.beziqueCardGame.deal();
+  }
+
+  public doReset() {
+    this.beziqueCardGame.reset();
   }
 
 }

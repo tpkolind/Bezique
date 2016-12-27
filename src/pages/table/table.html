@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Table</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card *ngIf="beziqueCardGame.visibleCard">
+    <ion-item-divider>Trump Card</ion-item-divider>
+    <ion-item>{{ beziqueCardGame.visibleCard.longName() }}</ion-item>
+  </ion-card>
+
+  <ion-card>
+    <ion-item-divider>Played Cards</ion-item-divider>
+    <ion-item *ngIf="beziqueCardGame.player[0].playedCard">
+      {{ beziqueCardGame.player[0].name }} - {{ beziqueCardGame.player[0].playedCard.longName() }}
+    </ion-item>
+    <ion-item *ngIf="beziqueCardGame.player[1].playedCard">
+      {{ beziqueCardGame.player[1].name }} - {{ beziqueCardGame.player[1].playedCard.longName() }}
+    </ion-item>
+  </ion-card>
+
+</ion-content>
