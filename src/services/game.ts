@@ -8,6 +8,7 @@ export class CardGame {
     public upcard : PlayingCard;
 
     public players : CardPlayer[] = [];
+    public playerOrder: CardPlayer[] = [];
     public inTurn: CardPlayer;
 
     constructor () { }
@@ -21,17 +22,31 @@ export class CardGame {
     public reset() { 
         this.dealt = false;
         this.players = [];
+        this.playerOrder = [];
         this.upcard = undefined;
     }
 
     public nextTurn() {
-        var nextTurnIndex = this.players.indexOf(this.inTurn);
-        nextTurnIndex++;
-        nextTurnIndex = nextTurnIndex === this.players.length ? 0 : nextTurnIndex;
-        this.inTurn = this.players[nextTurnIndex];
+        var nextPlayerIndex = this.playerOrder.indexOf(this.inTurn);
+        // Check if the round has ended
+        if (nextPlayerIndex == this.playerOrder.length) {
+            this.completeRound();
+        } else {
+            this.inTurn = this.playerOrder[nextPlayerIndex++]; 
+        }
     }
 
     public completeRound() {
+        this.determineWinner();
+        this.nextRound();
+    }
+
+    public determineWinner() {
+        return this.players[0];
+    }
+
+    public nextRound() {
+        this.reset();
     }
 
 }
@@ -61,5 +76,28 @@ export class BeziqueCardGame extends CardGame {
         this.deck = new Deck(beziqueDeckConfiguration);
         this.createPlayer('Player One');
         this.createPlayer('Player Two');
+    }
+
+    /* A player wins if he played a higher rank with the same suit, a trump card when the other player didn't, 
+    or he played first and opponent can't match suit */
+    public determineWinner() {
+        var winner;
+        var player1 = this.playerOrder[0].playedCards.stack[0];
+        var player2 = this.playerOrder[1].playedCards.stack[0];
+        // Check if suits match or if only one suit is trump
+        if (player1.suit === player2.suit) {
+            if (beziqueDeckConfiguration.ranks.indexOf(player1.rank) > beziqueDeckConfiguration.ranks.indexOf(player2.rank)) {
+                winner = this.playerOrder[0];
+            } else {
+                winner = this.playerOrder[1];
+            }
+        } else if (player1.suit === this.upcard.suit) {
+            winner = this.playerOrder[0];
+        } else if (player2.suit === this.upcard.suit) {
+            winner = this.playerOrder[1];
+        } else {
+            winner = this.playerOrder[0];
+        }
+        return winner;
     }
 }
