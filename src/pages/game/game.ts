@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { DeckPage } from '../deck/deck';
 import { PlayerPage } from '../player/player';
 import { TablePage } from '../table/table';
-import { BeziqueCardGame } from '../../card-services/game';
+import { BeziqueCardGame } from '../../services/game';
 
 @Component({
   templateUrl: 'game.html'

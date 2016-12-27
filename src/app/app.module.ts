@@ -5,7 +5,7 @@ import { PlayerPage } from '../pages/player/player';
 import { DeckPage } from '../pages/deck/deck';
 import { GamePage } from '../pages/game/game';
 import { TablePage } from '../pages/table/table';
-import { CardCollection } from '../components/card-collection/card-collection'
+import { CardsComponent } from '../components/cards/cards'
 import { PlayerComponent } from '../components/player/player'
 
 @NgModule({
@@ -15,7 +15,7 @@ import { PlayerComponent } from '../components/player/player'
     DeckPage,
     TablePage,
     GamePage,
-    CardCollection,
+    CardsComponent,
     PlayerComponent,
   ],
   imports: [

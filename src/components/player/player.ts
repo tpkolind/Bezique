@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { CardPlayer } from '../../card-services/player';
+import { CardPlayer } from '../../services/player';
 
 @Component({
   selector: 'player',

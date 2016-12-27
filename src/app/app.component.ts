@@ -3,7 +3,7 @@ import { Platform } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 
 import { GamePage } from '../pages/game/game';
-import { BeziqueCardGame } from '../card-services/game'; 
+import { BeziqueCardGame } from '../services/game'; 
 
 
 @Component({

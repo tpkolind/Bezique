@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { BeziqueCardGame } from '../../card-services/game';
+import { BeziqueCardGame } from '../../services/game';
 
 @Component({
   selector: 'player-page',

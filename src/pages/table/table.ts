@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { BeziqueCardGame } from '../../card-services/game';
+import { BeziqueCardGame } from '../../services/game';
 
 @Component({
   selector: 'page-table',
