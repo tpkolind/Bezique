@@ -1,10 +1,10 @@
 <ion-card>
-  <ion-item-divider>
+  <ion-item-divider [color]="player.game.inTurn === player ? 'primary' : 'light'">
     {{ player.name }}
-    <button ion-button outline item-right color="default" (click)="doDraw(player)" [disabled]="!(player.canDraw())">
+    <button ion-button item-right (click)="doDraw(player)" [disabled]="!(player.canDraw())">
       Draw
     </button>
-    <button ion-button outline item-right color="default" (click)="doPlay(player)" [disabled]="!(player.canPlay())">
+    <button ion-button item-right (click)="doPlay(player)" [disabled]="!(player.canPlay())">
       Play
     </button>
   </ion-item-divider>
