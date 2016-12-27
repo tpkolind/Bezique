@@ -28,8 +28,9 @@ export class CardGame {
 
     public nextTurn() {
         var nextPlayerIndex = this.playerOrder.indexOf(this.inTurn);
-        // Check if the round has ended
-        if (nextPlayerIndex == this.playerOrder.length) {
+        if (nextPlayerIndex == -1) {
+            this.inTurn = this.players[0];  // Need to modify to random
+        } else if (nextPlayerIndex == this.playerOrder.length) {
             this.completeRound();
         } else {
             this.inTurn = this.playerOrder[nextPlayerIndex++]; 
@@ -76,6 +77,8 @@ export class BeziqueCardGame extends CardGame {
         this.deck = new Deck(beziqueDeckConfiguration);
         this.createPlayer('Player One');
         this.createPlayer('Player Two');
+        this.playerOrder[0] = this.players[0];  // Ask dad whether this.playerOrder = this.players is OK?
+        this.playerOrder[1] = this.players[1];
     }
 
     /* A player wins if he played a higher rank with the same suit, a trump card when the other player didn't, 

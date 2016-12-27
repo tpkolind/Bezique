@@ -16,7 +16,10 @@
   </ion-card>
 
   <ion-card>
-    <ion-card-header>Current round</ion-card-header>
+    <ion-item-divider>
+      Current round
+      <button ion-button item-right (click)="doCompleteRound()">Evaluate</button>
+    </ion-item-divider>
     <ion-list>
       <ion-item *ngFor="let player of beziqueCardGame.players">
         {{ player.name }}

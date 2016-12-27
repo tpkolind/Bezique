@@ -8,4 +8,8 @@ import { BeziqueCardGame } from '../../services/game';
 export class TablePage {
 
   constructor(public beziqueCardGame : BeziqueCardGame) {}
+
+  public doCompleteRound() {
+    this.beziqueCardGame.completeRound();
+  }
 }
