@@ -23,6 +23,7 @@ export class CardPlayer {
 
     public canDraw() {
         return this.hand.stack.length + this.melds.stack.length < this.playerConfig.maxHandLength &&
+            this.game.dealt && 
             this.game.deck.playingCards.stack.length > 0;
     }
 
