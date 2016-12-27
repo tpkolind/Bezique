@@ -30,7 +30,7 @@ export class CardPlayer {
     }
 
     public canPlay() {
-        return this.selectedCards.stack.length === 1;
+        return this.selectedCards.stack.length === 1 && this.game.inTurn === this && !this.canDraw();
     }
 
     public play() {
@@ -38,5 +38,6 @@ export class CardPlayer {
         this.selectedCards.remove(card);
         this.hand.remove(card);
         this.playedCard = card;
+        this.game.nextTurn()
     }
 }

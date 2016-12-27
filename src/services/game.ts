@@ -8,6 +8,7 @@ export class CardGame {
     public upcard : PlayingCard;
 
     public players : CardPlayer[] = [];
+    public inTurn: CardPlayer;
 
     constructor () { }
 
@@ -22,6 +23,14 @@ export class CardGame {
         this.players = [];
         this.upcard = undefined;
     }
+
+    public nextTurn() {
+        var nextTurnIndex = this.players.indexOf(this.inTurn);
+        nextTurnIndex++;
+        nextTurnIndex = nextTurnIndex === this.players.length ? 0 : nextTurnIndex;
+        this.inTurn = this.players[nextTurnIndex];
+    }
+
 }
 
 @Injectable()
@@ -40,8 +49,8 @@ export class BeziqueCardGame extends CardGame {
         this.players[1].draw(3);
 
         this.upcard = this.deck.draw();
-
         this.dealt = true;
+        this.nextTurn();
     }
 
     public reset() {
