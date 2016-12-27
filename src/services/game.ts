@@ -10,6 +10,7 @@ export class CardGame {
     public players : CardPlayer[] = [];
     public playerOrder: CardPlayer[] = [];
     public inTurn: CardPlayer;
+    public roundWinner: CardPlayer;
 
     constructor () { }
 
@@ -29,11 +30,11 @@ export class CardGame {
     public nextTurn() {
         var nextPlayerIndex = this.playerOrder.indexOf(this.inTurn);
         if (nextPlayerIndex == -1) {
-            this.inTurn = this.players[0];  // Need to modify to random
-        } else if (nextPlayerIndex == this.playerOrder.length) {
+            this.inTurn = this.players[0];  // Need to modify to a random player
+        } else if (nextPlayerIndex == this.playerOrder.length-1) {
             this.completeRound();
         } else {
-            this.inTurn = this.playerOrder[nextPlayerIndex++]; 
+            this.inTurn = this.playerOrder[nextPlayerIndex+1]; 
         }
     }
 
@@ -43,7 +44,7 @@ export class CardGame {
     }
 
     public determineWinner() {
-        return this.players[0];
+        this.roundWinner = this.players[0];
     }
 
     public nextRound() {
@@ -101,6 +102,12 @@ export class BeziqueCardGame extends CardGame {
         } else {
             winner = this.playerOrder[0];
         }
-        return winner;
+        this.roundWinner = winner;
+    }
+
+    public nextRound() {
+        this.playerOrder[0] = this.roundWinner;
+        this.playerOrder[1] = this.players[1 - this.players.indexOf(this.roundWinner)];
+        this.inTurn = this.playerOrder[0];
     }
 }

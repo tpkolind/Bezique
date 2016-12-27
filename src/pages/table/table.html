@@ -23,8 +23,7 @@
     <ion-list>
       <ion-item *ngFor="let player of beziqueCardGame.players">
         {{ player.name }}
-        <ion-note item-right *ngIf="player.playedCards">{{ player.playedCards.toString() }}
-
+        <ion-note item-right *ngIf="player.playedCards" [color]="beziqueCardGame.roundWinner.name === player.name ? 'primary' : 'light'">{{ player.playedCards.toString() }}
         </ion-note>
       </ion-item>
     </ion-list>
