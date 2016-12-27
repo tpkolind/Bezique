@@ -19,4 +19,13 @@
     Melds
   </ion-item-divider>
   <cards [cardStack]="player.melds" [selectedStack]="player.selectedCards"></cards>
+  <ion-item-divider color="light">
+    Available melds
+  </ion-item-divider>
+  <ion-list>
+    <ion-item>
+      <ion-label>Royal Marriage</ion-label>
+      <ion-checkbox>KC, QC</ion-checkbox>
+    </ion-item>
+  </ion-list>
 </ion-card>
