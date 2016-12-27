@@ -4,22 +4,23 @@ import { CardPlayer } from './player';
 
 export class CardGame {
     public deck : Deck;
-    public player : CardPlayer[] = [];
     public dealt : Boolean = false;
-    public visibleCard : PlayingCard;
+    public upcard : PlayingCard;
+
+    public players : CardPlayer[] = [];
 
     constructor () { }
 
     public createPlayer(name : string) {
-        this.player.push(new CardPlayer(name, this));
+        this.players.push(new CardPlayer(name, this));
     }
 
     public deal() { }
 
     public reset() { 
         this.dealt = false;
-        this.player = [];
-        this.visibleCard = undefined;
+        this.players = [];
+        this.upcard = undefined;
     }
 }
 
@@ -31,14 +32,14 @@ export class BeziqueCardGame extends CardGame {
     }
 
     public deal()  {
-        this.player[0].draw(3);
-        this.player[1].draw(3);
-        this.player[0].draw(2);
-        this.player[1].draw(2);
-        this.player[0].draw(3);
-        this.player[1].draw(3);
+        this.players[0].draw(3);
+        this.players[1].draw(3);
+        this.players[0].draw(2);
+        this.players[1].draw(2);
+        this.players[0].draw(3);
+        this.players[1].draw(3);
 
-        this.visibleCard = this.deck.draw();
+        this.upcard = this.deck.draw();
 
         this.dealt = true;
     }

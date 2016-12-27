@@ -11,6 +11,10 @@ export class CardPlayer {
 
     }
 
+    public canDraw() {
+        return this.hand.stack.length < 8 && this.game.deck.playingCards.stack.length > 0;
+    }
+
     public draw(numberOfCards : Number = 1) {
         for (var cardNumber = 0; cardNumber < numberOfCards; cardNumber++) {
             this.hand.add(this.game.deck.draw());
@@ -23,6 +27,10 @@ export class CardPlayer {
         } else {
             this.selectedCards.add(playingCard);
         }
+    }
+
+    public canPlay() {
+        return this.selectedCards.stack.length === 1;
     }
 
     public play() {

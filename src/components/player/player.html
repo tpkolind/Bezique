@@ -1,10 +1,10 @@
 <ion-card>
   <ion-item-divider>
-    <button ion-button outline item-left color="default" (click)="doDraw(player)" [disabled]="!(player.hand.stack.length < 8)">
+    <button ion-button outline item-left color="default" (click)="doDraw(player)" [disabled]="!(player.canDraw())">
       Draw
     </button>
     {{ player.name }}
-    <button ion-button outline item-right color="default" (click)="doPlay(player)" [disabled]="!(player.selectedCards.stack.length  === 1)">
+    <button ion-button outline item-right color="default" (click)="doPlay(player)" [disabled]="!(player.canPlay())">
       Play
     </button>
   </ion-item-divider>
