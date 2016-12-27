@@ -37,6 +37,8 @@ export const beziqueDeckConfiguration = {
 }
 
 export class PlayingCard {
+    public owningStack : CardStack;
+
     constructor (public rank : string, public suit : string) {
     }
 
@@ -53,21 +55,34 @@ export class PlayingCard {
     public longName() {
         return Ranks[this.rank] + ' of ' + Suits[this.suit];
     }
+
+    public moveToStack(newStack) {
+        if (this.owningStack) {
+            this.owningStack.remove(this);
+        }
+        newStack.add(this);
+    }
 }
 
 export class CardStack {
     public stack : PlayingCard[] = [];
 
-    public add(playingCard : PlayingCard) {
+    public add(playingCard : PlayingCard, changeOwner : Boolean = true) {
         if (playingCard) {
             this.stack.push(playingCard);
+            if (changeOwner) {
+                playingCard.owningStack = this;
+            }
         }
     }
 
-    public remove(playingCard : PlayingCard) {
+    public remove(playingCard : PlayingCard, changeOwner : Boolean = true) {
         var selectedCardIndex = this.stack.indexOf(playingCard);
         if (selectedCardIndex > -1) {
             this.stack.splice(selectedCardIndex, 1);
+            if (changeOwner) {
+                playingCard.owningStack = undefined;
+            }
             return playingCard;
         } else {
             return undefined;
@@ -75,17 +90,17 @@ export class CardStack {
     }
 
     public draw() {
-        return this.stack.shift();
+        var drawnCard = this.stack.shift();
+        if (drawnCard) {
+            drawnCard.owningStack = undefined;
+        }
+        return drawnCard;
     }
 
     public swapCards(oldPosition, newPosition) {
         var oldCard = this.stack[oldPosition];
         this.stack[oldPosition] = this.stack[newPosition];
         this.stack[newPosition] = oldCard;
-    }
-
-    public moveToStack(card : PlayingCard, newStack : CardStack) {
-        newStack.add(this.remove(card));
     }
 
     public clear() {
