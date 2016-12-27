@@ -107,6 +107,10 @@ export class CardStack {
         this.stack = [];
     }
 
+    public isEmpty() {
+        return (this.stack.length == 0);
+    }
+
     public toString() {
         return this.stack.join(', ');
     }

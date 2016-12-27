@@ -4,9 +4,6 @@
     <button ion-button item-right (click)="doDraw(player)" [disabled]="!(player.canDraw())">
       Draw
     </button>
-    <button ion-button item-right (click)="doMeld(player)" [disabled]="!(player.canMeld())">
-      Meld
-    </button>
     <button ion-button item-right (click)="doPlay(player)" [disabled]="!(player.canPlay())">
       Play
     </button>
@@ -15,12 +12,15 @@
     Cards in hand
   </ion-item-divider>
   <cards [cardStack]="player.hand" [selectedStack]="player.selectedCards"></cards>
-  <ion-item-divider color="dark">
+  <ion-item-divider color="dark" *ngIf="!player.melds.isEmpty()">
     Melds
   </ion-item-divider>
   <cards [cardStack]="player.melds" [selectedStack]="player.selectedCards"></cards>
   <ion-item-divider color="light">
     Available melds
+    <button ion-button item-right (click)="doMeld(player)" [disabled]="!(player.canMeld())">
+      Meld
+    </button>
   </ion-item-divider>
   <ion-list>
     <ion-item>
