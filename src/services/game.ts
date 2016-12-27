@@ -2,10 +2,19 @@ import { Injectable } from '@angular/core'
 import { Deck, PlayingCard, beziqueDeckConfiguration } from './deck';
 import { CardPlayer, defaultPlayerConfiguration } from './player';
 
+export const GAME_STATES = {
+    'INITIAL': 'DEAL',
+    'DEAL': 'PLAY',
+    'PLAY': 'EVALUATE',
+    'EVALUATE': 'DRAW',
+    'DRAW': 'PLAY' 
+}
+
 export class CardGame {
     public deck : Deck;
     public dealt : Boolean = false;
     public upcard : PlayingCard;
+    public state : string = GAME_STATES.DEAL;
 
     public players : CardPlayer[] = [];
     public playerOrder: CardPlayer[] = [];
@@ -18,13 +27,19 @@ export class CardGame {
         this.players.push(new CardPlayer(name, this, defaultPlayerConfiguration));
     }
 
-    public deal() { }
+    public deal() { 
+        this.dealt = true;
+        this.nextState();
+        this.nextTurn();
+    }
 
     public reset() { 
         this.dealt = false;
         this.players = [];
         this.playerOrder = [];
         this.upcard = undefined;
+        this.inTurn = undefined;
+        this.state = GAME_STATES.INITIAL;
     }
 
     public nextTurn() {
@@ -32,14 +47,22 @@ export class CardGame {
         if (nextPlayerIndex == -1) {
             this.inTurn = this.players[0];  // Need to modify to a random player
         } else if (nextPlayerIndex == this.playerOrder.length-1) {
-            this.completeRound();
+            this.nextState();
         } else {
             this.inTurn = this.playerOrder[nextPlayerIndex+1]; 
         }
     }
 
+    public nextState() {
+        this.state = GAME_STATES[this.state];
+        if (this.state === 'EVALUATE') {
+            this.completeRound();
+        }
+    }
+
     public completeRound() {
         this.determineWinner();
+        this.nextState();
         this.nextRound();
     }
 
@@ -48,7 +71,9 @@ export class CardGame {
     }
 
     public nextRound() {
-        this.reset();
+        this.playerOrder[0] = this.roundWinner;
+        this.playerOrder[1] = this.players[1 - this.players.indexOf(this.roundWinner)];
+        this.inTurn = this.playerOrder[0];
     }
 
 }
@@ -69,8 +94,7 @@ export class BeziqueCardGame extends CardGame {
         this.players[1].draw(3);
 
         this.upcard = this.deck.draw();
-        this.dealt = true;
-        this.nextTurn();
+        super.deal();
     }
 
     public reset() {
@@ -90,7 +114,7 @@ export class BeziqueCardGame extends CardGame {
         var player2 = this.playerOrder[1].playedCards.stack[0];
         // Check if suits match or if only one suit is trump
         if (player1.suit === player2.suit) {
-            if (beziqueDeckConfiguration.ranks.indexOf(player1.rank) > beziqueDeckConfiguration.ranks.indexOf(player2.rank)) {
+            if (beziqueDeckConfiguration.ranks.indexOf(player1.rank) >= beziqueDeckConfiguration.ranks.indexOf(player2.rank)) {
                 winner = this.playerOrder[0];
             } else {
                 winner = this.playerOrder[1];
@@ -103,11 +127,5 @@ export class BeziqueCardGame extends CardGame {
             winner = this.playerOrder[0];
         }
         this.roundWinner = winner;
-    }
-
-    public nextRound() {
-        this.playerOrder[0] = this.roundWinner;
-        this.playerOrder[1] = this.players[1 - this.players.indexOf(this.roundWinner)];
-        this.inTurn = this.playerOrder[0];
     }
 }
