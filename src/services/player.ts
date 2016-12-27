@@ -6,7 +6,9 @@ export const defaultPlayerConfiguration = {
     minHandLength : 0,
     maxHandLength : 8,
     minPlayableCards: 1,
-    maxPlayableCards: 1
+    maxPlayableCards: 1,
+    minMeldableCards: 2,
+    maxMeldableCards: 8
 }
 
 export class CardPlayer {
@@ -14,12 +16,13 @@ export class CardPlayer {
     public selectedCards: CardStack = new CardStack();
     public playedCards : CardStack = new CardStack();
     public wonCards: CardStack = new CardStack();
+    public melds: CardStack = new CardStack();
 
     constructor (public name : string, public game: CardGame, private playerConfig) {
     }
 
     public canDraw() {
-        return this.hand.stack.length < this.playerConfig.maxHandLength &&
+        return this.hand.stack.length + this.melds.stack.length < this.playerConfig.maxHandLength &&
             this.game.deck.playingCards.stack.length > 0;
     }
 
@@ -31,9 +34,9 @@ export class CardPlayer {
 
     public toggleSelect(playingCard : PlayingCard) {
         if (playingCard.selected) {
-            this.selectedCards.remove(playingCard);
+            this.selectedCards.remove(playingCard, false);
         } else {
-            this.selectedCards.add(playingCard);
+            this.selectedCards.add(playingCard, false);
         }
     }
 
@@ -45,9 +48,24 @@ export class CardPlayer {
 
     public play() {
         this.selectedCards.stack.forEach((card) => {
-            this.hand.moveToStack(card, this.playedCards);
+            card.selected = false;
+            card.moveToStack(this.playedCards);
         });
         this.selectedCards.clear();
         this.game.nextTurn()
+    }
+
+    public canMeld() {
+        return this.game.inTurn === this && 
+            this.selectedCards.stack.length >= this.playerConfig.minMeldableCards &&
+            this.selectedCards.stack.length <= this.playerConfig.maxMeldableCards;
+    }
+
+    public meld() {
+        this.selectedCards.stack.forEach((card) => {
+            card.selected = false;
+            card.moveToStack(this.melds);
+        });
+        this.selectedCards.clear();        
     }
 }

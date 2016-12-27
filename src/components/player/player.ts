@@ -19,4 +19,8 @@ export class PlayerComponent {
     player.play();
   }
 
+  public doMeld(player : CardPlayer) {
+    player.meld();
+  }
+
 }
