@@ -24,7 +24,7 @@ export class CardPlayer {
         }
     }
 
-    public playCards() {
+    public play() {
         var card = this.selectedCards.stack[0];
         this.selectedCards.remove(card);
         this.hand.remove(card);

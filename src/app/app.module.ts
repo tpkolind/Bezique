@@ -2,7 +2,7 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { PlayerPage } from '../pages/player/player';
-import { DeckPage } from '../pages/deck-page/deck-page';
+import { DeckPage } from '../pages/deck/deck';
 import { GamePage } from '../pages/game/game';
 import { TablePage } from '../pages/table/table';
 import { CardCollection } from '../components/card-collection/card-collection'

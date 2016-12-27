@@ -16,7 +16,7 @@ export class PlayerComponent {
   }
 
   public doPlay(player : CardPlayer) {
-    player.playCards();
+    player.play();
   }
 
 }

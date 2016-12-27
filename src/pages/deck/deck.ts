@@ -5,7 +5,7 @@ import { NavController } from 'ionic-angular';
 
 @Component({
   selector: 'deck-page',
-  templateUrl: 'deck-page.html',
+  templateUrl: 'deck.html',
   providers: []
 })
 export class DeckPage {
