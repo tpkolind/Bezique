@@ -1,7 +1,7 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
-import { PlayerPage } from '../pages/player-page/player-page';
+import { PlayerPage } from '../pages/player/player';
 import { DeckPage } from '../pages/deck-page/deck-page';
 import { GamePage } from '../pages/game-page/game-page';
 import { TablePage } from '../pages/table/table';

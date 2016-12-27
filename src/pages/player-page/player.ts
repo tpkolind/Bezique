@@ -4,7 +4,7 @@ import { BeziqueCardGame } from '../../card-services/game';
 
 @Component({
   selector: 'player-page',
-  templateUrl: 'player-page.html',
+  templateUrl: 'player.html',
   providers: []
 })
 export class PlayerPage {
