@@ -15,6 +15,7 @@
 </ion-header>
 
 <ion-content>
-  <player [player]="beziqueCardGame.players[0]"></player>
-  <player [player]="beziqueCardGame.players[1]"></player>  
+  <player *ngIf="beziqueCardGame.inTurn" [player]="beziqueCardGame.inTurn"></player>
+  <!--<player [player]="beziqueCardGame.players[0]"></player>
+  <player [player]="beziqueCardGame.players[1]"></player>  -->
 </ion-content>
