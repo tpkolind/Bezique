@@ -62,12 +62,28 @@ export class CardGame {
 
     public completeRound() {
         this.determineWinner();
+        this.collectPlayedCards();
         this.nextState();
         this.nextRound();
     }
 
     public determineWinner() {
         this.roundWinner = this.players[0];
+    }
+
+    public collectPlayedCards() {
+        this.players.forEach((player) => {
+            player.playedCards.stack.forEach((card) => {
+                card.moveToStack(this.roundWinner.wonCards);
+            })
+        })
+    }
+
+    public draw() {
+        this.playerOrder.forEach((player) => {
+            player.draw();
+        });
+        this.nextState();
     }
 
     public nextRound() {

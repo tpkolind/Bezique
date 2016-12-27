@@ -12,7 +12,7 @@ export class PlayerComponent {
   public player : CardPlayer;
   
   public doDraw(player : CardPlayer) {
-    player.draw(1);
+    player.game.draw();
   }
 
   public doPlay(player : CardPlayer) {
