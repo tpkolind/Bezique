@@ -6,7 +6,7 @@ import { TablePage } from '../table/table';
 import { BeziqueCardGame } from '../../card-services/game';
 
 @Component({
-  templateUrl: 'game-page.html'
+  templateUrl: 'game.html'
 })
 export class GamePage {
   // this tells the tabs component which Pages
