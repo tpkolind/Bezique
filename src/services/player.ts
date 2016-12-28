@@ -40,7 +40,11 @@ export class CardPlayer {
 	public canDraw() {
 		return this.hand.stack.length + this.melds.stack.length < this.playerConfig.maxHandLength &&
 			this.game.dealt && 
-			this.game.deck.playingCards.stack.length > 0;
+			this.game.deck.playingCards.stack.length > 0 &&
+			(
+				this.game.state === GAME_STATES.DRAW || 
+				this.game.state === GAME_STATES.DRAW_STAGE_2
+			);
 	}
 
   /** Draw cards from the game deck */
