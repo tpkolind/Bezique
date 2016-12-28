@@ -175,6 +175,10 @@ export class CardGame {
     this.inTurn = this.playerOrder[0];
   }
 
+  public validDece() : PlayingCard {
+    return new PlayingCard('7', this.trumpSuit);
+  }
+
 }
 
 /**
@@ -201,7 +205,7 @@ export class BeziqueCardGame extends CardGame {
     this.deck.drawUpCard();
     this.trumpSuit = this.deck.upcard.suit;
     super.deal();
-    this.simulateRound(22);
+    // this.simulateRound(22);
   }
 
   /**

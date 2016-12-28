@@ -85,6 +85,17 @@ export class CardPlayer {
 		});
 		this.selectedCards.clear();        
 	}
+
+	public canDece() {
+		return this.selectedCards.stack.length === 1 &&
+			!this.game.deck.isEmpty() &&
+			this.selectedCards.stack[0].toString() === this.game.validDece().toString();
+	}
+
+	public dece() {
+		this.game.deck.swapUpCard(this.selectedCards.stack[0]);
+		this.selectedCards.clear();
+	}
 	
 	public calculateMelds() {
 		

@@ -94,7 +94,7 @@ export class CardStack {
 	}
 
   /**
-   * Remove th card from the stack
+   * Remove the card from the stack
    * @param playingCard - The card to remove
    * @param changeOwner - If true change the owner of the card
    * @return PlayingCard - the card that was removed. If the card is not in the stack this returns undefined
@@ -215,7 +215,14 @@ export class Deck {
 	/** Draw an upcard from the deck */
 	public drawUpCard() {
 		this.upcard = this.draw();
-		this.playingCards.stack.push(this.upcard);
-		this.upcard.owningStack = this.playingCards;
+		this.playingCards.add(this.upcard);
+	}
+
+	public swapUpCard(card : PlayingCard) {
+		var currentUpCard = this.upcard;
+		this.upcard.moveToStack(card.owningStack);
+		card.moveToStack(this.playingCards);
+		this.upcard = card;
+		return currentUpCard;
 	}
 }
