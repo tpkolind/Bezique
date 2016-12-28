@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { Deck, PlayingCard, beziqueDeckConfiguration } from './deck';
+import { Deck, PlayingCard, beziqueDeckConfiguration, Suits } from './deck';
 import { CardPlayer, defaultPlayerConfiguration } from './player';
 
 export const GAME_STATES = {
@@ -36,6 +36,9 @@ export class CardGame {
    * Card facing up after the deal
    */
   public upcard: PlayingCard;
+
+  /** The current trump suit for the game */
+  public trumpSuit = '';
 
   /**
    * Stage of the card game
@@ -191,6 +194,7 @@ export class BeziqueCardGame extends CardGame {
     this.players[1].draw(3);
 
     this.upcard = this.deck.draw();
+    this.trumpSuit = this.upcard.suit;
     super.deal();
     this.simulateRound(22);
   }
@@ -223,11 +227,11 @@ export class BeziqueCardGame extends CardGame {
       winner = (beziqueDeckConfiguration.ranks.indexOf(playerOneCard.rank) >= beziqueDeckConfiguration.ranks.indexOf(playerTwoCard.rank)) ?      
         this.playerOrder[0] : this.playerOrder[1];
     // Else if Player One has a trump suit
-    } else if (playerOneCard.suit === this.upcard.suit) {
+    } else if (playerOneCard.suit === this.trumpSuit) {
       // player 1 is the winner
       winner = this.playerOrder[0];
     // Else if player two has a trump suit
-    } else if (playerTwoCard.suit === this.upcard.suit) {
+    } else if (playerTwoCard.suit === this.trumpSuit) {
       // player two is a winner
       winner = this.playerOrder[1];
     // Else player one is the winner
