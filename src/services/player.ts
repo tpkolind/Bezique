@@ -1,6 +1,6 @@
 
 import { CardStack, PlayingCard } from './deck';
-import { CardGame } from './game';
+import { CardGame, GAME_STATES } from './game';
 
 export const defaultPlayerConfiguration = {
 	minHandLength : 0,
@@ -69,13 +69,12 @@ export class CardPlayer {
 
   /** Returns true if it is legal to meld selected cards on the next turn */
 	public canMeld() {
-		this.calculateMelds();
-		return this.availableMelds.isEmpty();
-		/*
+		// this.calculateMelds();
+		// return this.availableMelds.isEmpty();
 		return this.game.inTurn === this && 
 			this.selectedCards.stack.length >= this.playerConfig.minMeldableCards &&
-			this.selectedCards.stack.length <= this.playerConfig.maxMeldableCards;
-		*/
+			this.selectedCards.stack.length <= this.playerConfig.maxMeldableCards &&
+			this.game.state === GAME_STATES.DRAW;
 	}
 
   /** Meld the selected cards */

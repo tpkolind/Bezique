@@ -201,7 +201,7 @@ export class BeziqueCardGame extends CardGame {
     this.deck.drawUpCard();
     this.trumpSuit = this.deck.upcard.suit;
     super.deal();
-    this.simulateRound(23);
+    this.simulateRound(22);
   }
 
   /**
