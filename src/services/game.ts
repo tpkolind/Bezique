@@ -131,7 +131,9 @@ export class CardGame {
     var nextStateFunction = GAME_STATE_TRANSITIONS[this.state];
     this.state = typeof nextStateFunction === 'string' ? nextStateFunction : nextStateFunction(this);
     if (this.state === GAME_STATES.EVALUATE || this.state === GAME_STATES.EVALUATE_STAGE_2) {
-      this.completeRound();
+      setTimeout(() => {
+        this.completeRound();
+      }, 5000)
     }
   }
 
