@@ -126,8 +126,8 @@ export class CardGame {
   public completeRound() {
     this.determineWinner();
     this.collectPlayedCards();
+    this.determinePlayOrder();
     this.nextState();
-    this.nextRound();
   }
 
   /**
@@ -161,7 +161,7 @@ export class CardGame {
   /**
    * Setup the play order for the next round
    */
-  public nextRound() {
+  public determinePlayOrder() {
     this.playerOrder[0] = this.roundWinner;
     this.playerOrder[1] = this.players[1 - this.players.indexOf(this.roundWinner)];
     this.inTurn = this.playerOrder[0];
