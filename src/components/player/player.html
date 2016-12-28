@@ -7,30 +7,18 @@
     <button ion-button item-right (click)="doDece(player)" [disabled]="!(player.canDece())" *ngIf="showActions">
       Dece
     </button>
+    <button ion-button item-right (click)="doMeld(player)" [disabled]="!(player.canMeld())" *ngIf="showActions">
+      Meld
+    </button>
     <button ion-button item-right (click)="doPlay(player)" [disabled]="!(player.canPlay())" *ngIf="showActions">
       Play
     </button>
-  </ion-item-divider>
-  <ion-item-divider color="dark" *ngIf="!player.hand.isEmpty()">
-    Cards in hand
   </ion-item-divider>
   <cards [cardStack]="player.hand" [selectedStack]="showActions ? player.selectedCards : undefined"></cards>
   <ion-item-divider color="dark" *ngIf="!player.melds.isEmpty()">
     Melds
   </ion-item-divider>
   <cards [cardStack]="player.melds" [selectedStack]="player.selectedCards"></cards>
-  <ion-item-divider color="light">
-    Available melds
-    <button ion-button item-right (click)="doMeld(player)" [disabled]="!(player.canMeld())" *ngIf="showActions">
-      Meld
-    </button>
-  </ion-item-divider>
-  <ion-list>
-    <ion-item>
-      <ion-label>Royal Marriage</ion-label>
-      <ion-checkbox>KC, QC</ion-checkbox>
-    </ion-item>
-  </ion-list>
   <ion-item-divider color="light" *ngIf="!player.wonCards.isEmpty()">
     Won cards
   </ion-item-divider>
