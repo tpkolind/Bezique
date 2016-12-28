@@ -1,4 +1,3 @@
-<ion-list>
     <div *ngIf="selectedStack">
         <ion-item *ngFor="let card of cardStack.stack">
             <ion-label>{{ card.longName() }}</ion-label>
@@ -6,6 +5,9 @@
         </ion-item>
     </div>
     <ion-item *ngIf="!selectedStack">
-        <p>{{ cardStack.toString() }}</p>
+        <ion-row wrap>
+            <ion-col *ngFor="let card of cardStack.stack" width-20>
+            <playing-card [card]="card" size="50px" showFace="true"></playing-card>
+            </ion-col>
+        </ion-row>
     </ion-item>
-</ion-list>

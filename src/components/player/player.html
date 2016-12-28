@@ -34,7 +34,5 @@
   <ion-item-divider color="light" *ngIf="!player.wonCards.isEmpty()">
     Won cards
   </ion-item-divider>
-  <ion-item *ngIf="!player.wonCards.isEmpty()">
-    <p>{{ player.wonCards.toString() }}</p>
-  </ion-item>
+  <cards [cardStack]="player.wonCards" *ngIf="!player.wonCards.isEmpty()"></cards>
 </ion-card>

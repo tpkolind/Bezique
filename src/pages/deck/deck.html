@@ -5,10 +5,7 @@
 </ion-header>
 
 <ion-content>
-  <!--<cards [cardStack]="beziqueCardGame.deck.playingCards"></cards>-->
   <ion-card>
-    <ion-card-content>
-    {{ beziqueCardGame.deck.playingCards.toString() }}
-    </ion-card-content>
+      <cards [cardStack]="beziqueCardGame.deck.playingCards" *ngIf="beziqueCardGame.deck"></cards>
   </ion-card>
 </ion-content>
