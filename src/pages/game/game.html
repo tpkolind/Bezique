@@ -1,4 +1,4 @@
-<ion-tabs>
+<!--<ion-tabs>
   <ion-tab [root]="tableTab" tabTitle="Table" tabIcon="clipboard"></ion-tab>
   <ion-tab 
     [root]="deckTab"
@@ -14,4 +14,24 @@
     [tabBadge]="beziqueCardGame.players.length" 
     tabBadgeStyle="danger">
   </ion-tab>
-</ion-tabs>
+</ion-tabs>-->
+
+<ion-menu [content]="mycontent" persistent="true">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <button ion-item menuClose (click)="openPage(deckPage)">
+        Deck
+      </button>
+      <button ion-item menuClose (click)="openPage(playerPage)">
+        Players
+      </button>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-nav #mycontent [root]="tablePage"></ion-nav>
