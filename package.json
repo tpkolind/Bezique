@@ -16,6 +16,9 @@
     "build:before": "build",
     "run:before": "build"
   },
+  "config": {
+    "ionic_copy": "./config/copy.config.js"
+  },
   "dependencies": {
     "@angular/common": "2.2.1",
     "@angular/compiler": "2.2.1",

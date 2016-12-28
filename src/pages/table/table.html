@@ -17,52 +17,21 @@
 
 <ion-content>
   <ion-card>
-      <ion-item-divider>
-        <ion-grid>
-          <ion-row>
-            <ion-col>Deck</ion-col>
-            <ion-col>Trump card</ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-item-divider>
-      <ion-item>
-        <ion-grid>
-          <ion-row>
-            <ion-col *ngIf="beziqueCardGame.deck.playingCards">
-              {{ beziqueCardGame.deck.playingCards.stack.length }} cards remaining
-            </ion-col>
-            <ion-col *ngIf="beziqueCardGame.deck.upcard">
-              {{ beziqueCardGame.deck.upcard.longName() }}
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-item>
-  </ion-card>
-
-  <ion-card>
-      <ion-item-divider>
-        <ion-grid>
-          <ion-row>
-            <ion-col *ngFor="let player of beziqueCardGame.playerOrder">
-                {{ player.name }}
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-item-divider>
-      <ion-item-divider>
-        <ion-grid>
-          <ion-row>
-            <ion-col *ngFor="let player of beziqueCardGame.playerOrder">
-              <ion-note 
-                *ngIf="player.playedCards" 
-                [color]="beziqueCardGame.roundWinner === player ? 'primary' : 'default'"
-                >
-                {{ player.playedCards.toString() }}
-              </ion-note>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-item-divider>
+    <ion-grid>
+      <ion-row>
+        <ion-col *ngIf="beziqueCardGame.deck.playingCards" width-20>
+          <playing-card [card]="beziqueCardGame.deck.playingCards.stack[0]" size="100px" showFace="false"></playing-card>
+        </ion-col>
+        <ion-col *ngIf="beziqueCardGame.deck.upcard" width-20>
+          <playing-card [card]="beziqueCardGame.deck.upcard" size="100px" showFace="true"></playing-card>
+        </ion-col>
+        <ion-col width-20>
+        </ion-col>
+        <ion-col width-20 *ngFor="let player of beziqueCardGame.players">
+          <playing-card [card]="player.playedCards.stack[0]" size="100px" showFace="true" *ngIf="!player.playedCards.isEmpty()"></playing-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-card>
 
   <player *ngIf="beziqueCardGame.inTurn" [player]="beziqueCardGame.inTurn" showActions="true"></player>
