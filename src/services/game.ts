@@ -38,7 +38,16 @@ export class CardGame {
 
   /** The current trump suit for the game */
   public trumpSuit = '';
-
+  public validMelds = {
+  'Bezique': ['QS','JD'],
+  'Marriage': ['K', 'Q'],
+  'Trump Flush': ['A', '10', 'K', 'Q', 'J']
+  /* Maybe for later use
+  'Aces': ['A', 'A', 'A', 'A'],
+  'Double Bezique': ['QS', 'QS', 'JD', 'JD'],
+  Four Aces, Kings, Queens, Jacks
+  */
+  }
   /**
    * Stage of the card game
    */

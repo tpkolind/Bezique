@@ -28,7 +28,7 @@ export class CardPlayer {
 	public wonCards: CardStack = new CardStack();
 
   /** The cards that can be used in melds */
-	public availableMelds: CardStack = new CardStack();
+	public availableMelds: CardStack[] = [];
 
   /** The cards that have been selected for a meld or to play (not visible) */
 	public selectedCards: CardStack = new CardStack();
@@ -70,7 +70,7 @@ export class CardPlayer {
   /** Returns true if it is legal to meld selected cards on the next turn */
 	public canMeld() {
 		this.calculateMelds();
-		return this.availableMelds.isEmpty();
+		return 0; //this.availableMelds.isEmpty();
 		/*
 		return this.game.inTurn === this && 
 			this.selectedCards.stack.length >= this.playerConfig.minMeldableCards &&
@@ -87,10 +87,104 @@ export class CardPlayer {
 		this.selectedCards.clear();        
 	}
 	
+	/** Calculate the melds available in the player's current hand */
 	public calculateMelds() {
-		
+		var bezique : CardStack = new CardStack();
+		var doubleBezique : CardStack = new CardStack();
+		var commonMarraige : CardStack = new CardStack();
+		var royalMarraige : CardStack = new CardStack();
+		var aces : CardStack = new CardStack();
+		var kings : CardStack = new CardStack();
+		var queens : CardStack = new CardStack();
+		var jacks : CardStack = new CardStack();
+		var flush : CardStack = new CardStack();
+		this.hand.stack.forEach((card) => {
+			switch(card.rank) {
+				// Ace cases (4As, Flush)
+				case 'A':
+					bezique.add(card);
+					if (card.suit === this.game.trumpSuit) {
+						flush.add(card);				
+					}
+					break;
+				// 10 cases (Flush)
+				case '10':
+					if (card.suit === this.game.trumpSuit) {
+						flush.add(card);
+					}
+					break;
+				// King cases (4Ks, RM, CM, Flush)
+				case 'K':
+					kings.add(card);
+					if (card.suit === this.game.trumpSuit) {
+						royalMarraige.add(card);
+						flush.add(card);
+					} else {
+						commonMarraige.add(card);
+					}		
+					break;
+				// Queen cases (4Qs, RM, CM, Flush, Bz, DBz)
+				case 'Q':
+					queens.add(card);
+					if (card.suit === this.game.trumpSuit) {
+						royalMarraige.add(card);
+						flush.add(card);
+					} else {
+						commonMarraige.add(card);
+					}	
+					if (card.suit === "S") {
+						bezique.add(card);
+						doubleBezique.add(card);
+					}
+					break;
+				// Jack cases (4Js, Flush, Bz, DBz)
+				case 'J':
+					jacks.add(card);
+					if (card.suit === this.game.trumpSuit) {
+						flush.add(card);
+					}
+					if (card.suit === "D") {
+						bezique.add(card);
+						doubleBezique.add(card);
+					}
+					break;
+				default:
+					break;
+			}
+		});
 	}
 
+	/** Check functions for each of the melds. Organizational purposes (may reconfigure) */
+	private checkMeld(type : string, possibleMeld : CardStack) {
+		var hasMeld = false;
+		var tempSuit = possibleMeld.stack[0].suit;
+		switch(type) {
+			case 'b':
+			case 'db':
+				var numJacks = 0;
+				var numQueens = 0;
+				for (var i=0; i < possibleMeld.stack.length; i++) {
+					if (possibleMeld.stack[i].rank === "J") {	numJacks++; }
+					else if (possibleMeld.stack[i].rank === "Q") { numQueens++; }
+				}
+				if (type === 'b') { hasMeld = (numJacks == 1 && numQueens == 1 ? true : false); }
+				else { hasMeld = (numJacks == 2 && numQueens == 2 ? true : false); }
+				break;
+			case 'cm':
+				break;
+			case 'rm':
+				break;
+			case 'a':
+			case 'k':
+			case 'q':
+			case 'j':
+				hasMeld = (possibleMeld.stack.length > 4);
+				break;
+			case 'f':
+				break;
+		}
+		return hasMeld
+	}
   /** Select / unselect a playing card */
 	public toggleSelect(playingCard : PlayingCard) {
 		if (playingCard.selected) {
