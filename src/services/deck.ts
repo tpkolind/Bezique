@@ -164,6 +164,8 @@ export class Deck {
   /** The playing cards in the deck */
 	public playingCards: CardStack = new CardStack();
 
+	public upcard : PlayingCard;
+
   /** Create the deck
    * @param config - the configuration to use for the deck
    */
@@ -208,5 +210,12 @@ export class Deck {
   /** Draw a card from the deck */
 	public draw() : PlayingCard {
 		return this.playingCards.draw();
+	}
+
+	/** Draw an upcard from the deck */
+	public drawUpCard() {
+		this.upcard = this.draw();
+		this.playingCards.stack.push(this.upcard);
+		this.upcard.owningStack = this.playingCards;
 	}
 }

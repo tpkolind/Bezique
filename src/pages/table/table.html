@@ -20,7 +20,7 @@
       <ion-item>Deck<ion-note item-right *ngIf="beziqueCardGame.deck.playingCards">{{ beziqueCardGame.deck.playingCards.stack.length }} cards remaining</ion-note></ion-item>
     </ion-list>
     <ion-list>
-      <ion-item>Trump<ion-note item-right *ngIf="beziqueCardGame.upcard">{{ beziqueCardGame.upcard.longName() }}</ion-note></ion-item>
+      <ion-item>Trump<ion-note item-right *ngIf="beziqueCardGame.deck.upcard">{{ beziqueCardGame.deck.upcard.longName() }}</ion-note></ion-item>
     </ion-list>
   </ion-card>
 

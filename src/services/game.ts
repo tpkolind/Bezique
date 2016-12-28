@@ -14,8 +14,12 @@ export const GAME_STATE_TRANSITIONS = {
   'INITIAL': 'DEAL',
   'DEAL': 'PLAY',
   'PLAY': 'EVALUATE',
-  'EVALUATE': 'DRAW',
-  'DRAW': 'PLAY'
+  'EVALUATE': (game) => {
+    return game.deck.playingCards.isEmpty() ? 'PLAY_STAGE_2' : 'DRAW'
+  },
+  'DRAW': 'PLAY',
+  'PLAY_STAGE_2': 'EVALUATE_STAGE_2',
+  'EVALUATE_STAGE_2': 'PLAY_STAGE_2'
 }
 
 /**
@@ -31,11 +35,6 @@ export class CardGame {
    * True when players hands have been dealt
    */
   public dealt: Boolean = false;
-
-  /**
-   * Card facing up after the deal
-   */
-  public upcard: PlayingCard;
 
   /** The current trump suit for the game */
   public trumpSuit = '';
@@ -93,7 +92,6 @@ export class CardGame {
     this.dealt = false;
     this.players = [];
     this.playerOrder = [];
-    this.upcard = undefined;
     this.inTurn = undefined;
     this.state = GAME_STATES.DEAL;
   }
@@ -116,7 +114,8 @@ export class CardGame {
    * Move to the next game stage. If we are evaluating, complete the round
    */
   public nextState() {
-    this.state = GAME_STATE_TRANSITIONS[this.state];
+    var nextStateFunction = GAME_STATE_TRANSITIONS[this.state];
+    this.state = typeof nextStateFunction === 'string' ? nextStateFunction : nextStateFunction(this);
     if (this.state === GAME_STATES.EVALUATE) {
       this.completeRound();
     }
@@ -193,8 +192,8 @@ export class BeziqueCardGame extends CardGame {
     this.players[0].draw(3);
     this.players[1].draw(3);
 
-    this.upcard = this.deck.draw();
-    this.trumpSuit = this.upcard.suit;
+    this.deck.drawUpCard();
+    this.trumpSuit = this.deck.upcard.suit;
     super.deal();
     this.simulateRound(22);
   }
