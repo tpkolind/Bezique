@@ -17,6 +17,7 @@ export class CardPlayer {
     public playedCards : CardStack = new CardStack();
     public wonCards: CardStack = new CardStack();
     public melds: CardStack = new CardStack();
+    public availableMelds: CardStack = new CardStack();
 
     constructor (public name : string, public game: CardGame, private playerConfig) {
     }
@@ -57,9 +58,13 @@ export class CardPlayer {
     }
 
     public canMeld() {
+        this.calculateMelds();
+        return this.availableMelds.isEmpty();
+        /*
         return this.game.inTurn === this && 
             this.selectedCards.stack.length >= this.playerConfig.minMeldableCards &&
             this.selectedCards.stack.length <= this.playerConfig.maxMeldableCards;
+        */
     }
 
     public meld() {
@@ -68,5 +73,9 @@ export class CardPlayer {
             card.moveToStack(this.melds);
         });
         this.selectedCards.clear();        
+    }
+    
+    public calculateMelds() {
+        
     }
 }
