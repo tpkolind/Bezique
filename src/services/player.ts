@@ -88,7 +88,7 @@ export class CardPlayer {
 
 	public canDece() {
 		return this.selectedCards.stack.length === 1 &&
-			!this.game.deck.isEmpty() &&
+			!this.game.deck.playingCards.isEmpty() &&
 			this.selectedCards.stack[0].toString() === this.game.validDece().toString();
 	}
 
