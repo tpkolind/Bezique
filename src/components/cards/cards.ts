@@ -23,9 +23,9 @@ export class CardsComponent {
     card.selected = !card.selected;
     if (this.selectedStack) {
       if (card.selected) {
-        this.selectedStack.add(card, false);
+        this.selectedStack.add(card);
       } else {
-        this.selectedStack.remove(card, false);
+        this.selectedStack.remove(card);
       }
     }
   }

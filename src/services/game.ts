@@ -43,7 +43,6 @@ export class CardGame {
   public dealt: Boolean = false;
 
   /** The current trump suit for the game */
-  public trumpSuit = '';
   public validMelds = {
   'Bezique': ['QS','JD'],
   'Marriage': ['K', 'Q'],
@@ -141,7 +140,7 @@ export class CardGame {
    * and move to the next stage
    */
   public completeRound() {
-    this.determineWinner();
+    this.determineRoundWinner();
     this.collectPlayedCards();
     this.determinePlayOrder();
     this.nextState();
@@ -150,8 +149,11 @@ export class CardGame {
   /**
    * Determine the winner of the round
    */
-  public determineWinner() {
-    this.roundWinner = this.players[0];
+  public determineRoundWinner() {
+    var playerOneCard = this.playerOrder[0].playedCards.stack[0];
+    var playerTwoCard = this.playerOrder[1].playedCards.stack[0];
+
+    this.roundWinner = this.deck.compareCards(playerOneCard, playerTwoCard) === -1 ? this.playerOrder[0] : this.playerOrder[1];
   }
 
   /**
@@ -171,6 +173,7 @@ export class CardGame {
   public draw() {
     this.playerOrder.forEach((player) => {
       player.draw();
+      player.orderHand();
     });
     this.nextState();
   }
@@ -183,11 +186,6 @@ export class CardGame {
     this.playerOrder[1] = this.players[1 - this.players.indexOf(this.roundWinner)];
     this.inTurn = this.playerOrder[0];
   }
-
-  public validDece() : PlayingCard {
-    return new PlayingCard('7', this.trumpSuit);
-  }
-
 }
 
 /**
@@ -212,7 +210,8 @@ export class BeziqueCardGame extends CardGame {
     this.players[1].draw(3);
 
     this.deck.drawUpCard();
-    this.trumpSuit = this.deck.upcard.suit;
+    this.players[0].orderHand();
+    this.players[1].orderHand();
     super.deal();
     // this.simulateRound(22);
   }
@@ -227,36 +226,6 @@ export class BeziqueCardGame extends CardGame {
     this.createPlayer('Player Two');
     this.playerOrder[0] = this.players[0];  // Ask dad whether this.playerOrder = this.players is OK?
     this.playerOrder[1] = this.players[1];
-  }
-
-  /**
-   * Determine a bezique round winner. A player wins if he played a higher rank with the same suit, 
-   * a trump card when the other player didn't, or he played first and opponent did not match suit 
-   */
-  public determineWinner() {
-    var winner : CardPlayer;
-    var playerOneCard = this.playerOrder[0].playedCards.stack[0];
-    var playerTwoCard = this.playerOrder[1].playedCards.stack[0];
-
-    // If suits match
-    if (playerOneCard.suit === playerTwoCard.suit) {
-
-      // Winner is the one with the highest ranked card
-      winner = (beziqueDeckConfiguration.ranks.indexOf(playerOneCard.rank) >= beziqueDeckConfiguration.ranks.indexOf(playerTwoCard.rank)) ?      
-        this.playerOrder[0] : this.playerOrder[1];
-    // Else if Player One has a trump suit
-    } else if (playerOneCard.suit === this.trumpSuit) {
-      // player 1 is the winner
-      winner = this.playerOrder[0];
-    // Else if player two has a trump suit
-    } else if (playerTwoCard.suit === this.trumpSuit) {
-      // player two is a winner
-      winner = this.playerOrder[1];
-    // Else player one is the winner
-    } else {
-      winner = this.playerOrder[0];
-    }
-    this.roundWinner = winner;
   }
 
   public simulateRound(numberOfRounds: number) {

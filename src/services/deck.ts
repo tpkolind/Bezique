@@ -26,14 +26,16 @@ export const defaultDeckConfiguration = {
 	decks: 1,
 	jokers: 2,
 	ranks: [ '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A' ],
-	suits: [ 'S', 'D', 'C', 'H' ]
+	suits: [ 'S', 'D', 'C', 'H' ],
+	trump: false
 }
 
 export const beziqueDeckConfiguration = {
 	decks: 2,
 	jokers: 0,
 	ranks: [ '7', '8', '9', 'J', 'Q', 'K', '10', 'A' ],
-	suits: [ 'S', 'D', 'C', 'H' ]
+	suits: [ 'S', 'D', 'C', 'H' ],
+	trump: true
 }
 
 /**
@@ -80,14 +82,17 @@ export class CardStack {
   /** The cards in the stack */
 	public stack : PlayingCard[] = [];
 
+	constructor (private owningStack : Boolean = true) {
+	}
+
   /** Add a card to the stack
    * @param playingCard - the card to ad to the stack
    * @param changeOwner - change the owner of the stack (default true)
    */
-	public add(playingCard : PlayingCard, changeOwner : Boolean = true) {
+	public add(playingCard : PlayingCard) {
 		if (playingCard) {
 			this.stack.push(playingCard);
-			if (changeOwner) {
+			if (this.owningStack) {
 				playingCard.owningStack = this;
 			}
 		}
@@ -99,11 +104,11 @@ export class CardStack {
    * @param changeOwner - If true change the owner of the card
    * @return PlayingCard - the card that was removed. If the card is not in the stack this returns undefined
    */
-	public remove(playingCard : PlayingCard, changeOwner : Boolean = true) {
+	public remove(playingCard : PlayingCard) {
 		var selectedCardIndex = this.stack.indexOf(playingCard);
 		if (selectedCardIndex > -1) {
 			this.stack.splice(selectedCardIndex, 1);
-			if (changeOwner) {
+			if (this.owningStack) {
 				playingCard.owningStack = undefined;
 			}
 			return playingCard;
@@ -165,6 +170,7 @@ export class Deck {
 	public playingCards: CardStack = new CardStack();
 
 	public upcard : PlayingCard;
+	public trumpSuit : string;
 
   /** Create the deck
    * @param config - the configuration to use for the deck
@@ -195,6 +201,46 @@ export class Deck {
 		}
 	}
 
+  /**
+   * Compare two cards for ordering according to the deck configuration
+   */
+  public compareCards(cardA : PlayingCard, cardB : PlayingCard, useSuitOrder : Boolean = false) : number {
+    // If suits match
+    if (cardA.suit === cardB.suit) {
+      // Winner is the one with the highest ranked card
+			return this.comparePip(cardA, cardB);
+    // Else if Player One has a trump suit
+    } else if (cardA.suit === this.trumpSuit) {
+      // player 1 is the winner
+      return -1;
+    // Else if player two has a trump suit
+    } else if (cardB.suit === this.trumpSuit) {
+      // player two is a winner
+      return 1;
+    // Else player one is the winner
+    } else {
+      return useSuitOrder ? this.compareSuit(cardA, cardB) : -1;
+    }
+  }
+
+	private comparePip(cardA, cardB) : number {
+		return this.config.ranks.indexOf(cardA.rank) === this.config.ranks.indexOf(cardB.rank) ?
+			0 :
+			this.config.ranks.indexOf(cardA.rank) > this.config.ranks.indexOf(cardB.rank) ?
+				-1 : 1;		
+	}
+
+	private compareSuit(cardA, cardB) : number {
+		return this.config.suits.indexOf(cardA.suit) === this.config.suits.indexOf(cardB.suit) ?
+			0 : 
+			this.config.suits.indexOf(cardA.suit) > this.config.suits.indexOf(cardB.suit) ?
+				-1 : 1;
+	}
+	
+  public validDece() : PlayingCard {
+		return new PlayingCard(this.config.ranks[0], this.trumpSuit);
+  }	
+
   /** Shuffle the deck */
 	public shuffle(numberOfTimes = 5) {
 		var randomPosition = 0;
@@ -215,6 +261,9 @@ export class Deck {
 	/** Draw an upcard from the deck */
 	public drawUpCard() {
 		this.upcard = this.draw();
+		if (this.config.trump) {
+			this.trumpSuit = this.upcard.suit;
+		}
 		this.playingCards.add(this.upcard);
 	}
 

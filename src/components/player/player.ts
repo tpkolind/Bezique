@@ -10,6 +10,9 @@ export class PlayerComponent {
 
   @Input()
   public player : CardPlayer;
+
+  @Input()
+  public showActions : Boolean = false;
   
   public doDraw(player : CardPlayer) {
     player.game.draw();

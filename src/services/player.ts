@@ -31,7 +31,7 @@ export class CardPlayer {
 	public availableMelds: CardStack[] = [];
 
   /** The cards that have been selected for a meld or to play (not visible) */
-	public selectedCards: CardStack = new CardStack();
+	public selectedCards: CardStack = new CardStack(false);
 
 	constructor (public name : string, public game: CardGame, private playerConfig) {
 	}
@@ -86,47 +86,57 @@ export class CardPlayer {
 		this.selectedCards.clear();        
 	}
 
+	/** Returns true if you can dece the selected card */
 	public canDece() {
 		return this.selectedCards.stack.length === 1 &&
 			!this.game.deck.playingCards.isEmpty() &&
-			this.selectedCards.stack[0].toString() === this.game.validDece().toString();
+			this.selectedCards.stack[0].toString() === this.game.deck.validDece().toString();
 	}
 
+	/** Dece the selected card */
 	public dece() {
 		this.game.deck.swapUpCard(this.selectedCards.stack[0]);
 		this.selectedCards.clear();
+		this.orderHand();
+	}
+
+	/** Sort the hand according to the deck configuration */
+	public orderHand() {
+		this.hand.stack.sort((cardA, cardB) => {
+			return this.game.deck.compareCards(cardA, cardB, true);
+		});
 	}
 	
 	/** Calculate the melds available in the player's current hand */
 	public calculateMelds() {
-		var bezique : CardStack = new CardStack();
-		var doubleBezique : CardStack = new CardStack();
-		var commonMarraige : CardStack = new CardStack();
-		var royalMarraige : CardStack = new CardStack();
-		var aces : CardStack = new CardStack();
-		var kings : CardStack = new CardStack();
-		var queens : CardStack = new CardStack();
-		var jacks : CardStack = new CardStack();
-		var flush : CardStack = new CardStack();
+		var bezique : CardStack = new CardStack(false);
+		var doubleBezique : CardStack = new CardStack(false);
+		var commonMarraige : CardStack = new CardStack(false);
+		var royalMarraige : CardStack = new CardStack(false);
+		var aces : CardStack = new CardStack(false);
+		var kings : CardStack = new CardStack(false);
+		var queens : CardStack = new CardStack(false);
+		var jacks : CardStack = new CardStack(false);
+		var flush : CardStack = new CardStack(false);
 		this.hand.stack.forEach((card) => {
 			switch(card.rank) {
 				// Ace cases (4As, Flush)
 				case 'A':
 					bezique.add(card);
-					if (card.suit === this.game.trumpSuit) {
+					if (card.suit === this.game.deck.trumpSuit) {
 						flush.add(card);				
 					}
 					break;
 				// 10 cases (Flush)
 				case '10':
-					if (card.suit === this.game.trumpSuit) {
+					if (card.suit === this.game.deck.trumpSuit) {
 						flush.add(card);
 					}
 					break;
 				// King cases (4Ks, RM, CM, Flush)
 				case 'K':
 					kings.add(card);
-					if (card.suit === this.game.trumpSuit) {
+					if (card.suit === this.game.deck.trumpSuit) {
 						royalMarraige.add(card);
 						flush.add(card);
 					} else {
@@ -136,7 +146,7 @@ export class CardPlayer {
 				// Queen cases (4Qs, RM, CM, Flush, Bz, DBz)
 				case 'Q':
 					queens.add(card);
-					if (card.suit === this.game.trumpSuit) {
+					if (card.suit === this.game.deck.trumpSuit) {
 						royalMarraige.add(card);
 						flush.add(card);
 					} else {
@@ -150,7 +160,7 @@ export class CardPlayer {
 				// Jack cases (4Js, Flush, Bz, DBz)
 				case 'J':
 					jacks.add(card);
-					if (card.suit === this.game.trumpSuit) {
+					if (card.suit === this.game.deck.trumpSuit) {
 						flush.add(card);
 					}
 					if (card.suit === "D") {
@@ -198,9 +208,9 @@ export class CardPlayer {
   /** Select / unselect a playing card */
 	public toggleSelect(playingCard : PlayingCard) {
 		if (playingCard.selected) {
-			this.selectedCards.remove(playingCard, false);
+			this.selectedCards.remove(playingCard);
 		} else {
-			this.selectedCards.add(playingCard, false);
+			this.selectedCards.add(playingCard);
 		}
 	}
 

@@ -17,10 +17,17 @@
 <ion-content>
   <ion-card>
     <ion-list>
-      <ion-item>Deck<ion-note item-right *ngIf="beziqueCardGame.deck.playingCards">{{ beziqueCardGame.deck.playingCards.stack.length }} cards remaining</ion-note></ion-item>
-    </ion-list>
-    <ion-list>
-      <ion-item>Trump<ion-note item-right *ngIf="beziqueCardGame.deck.upcard">{{ beziqueCardGame.deck.upcard.longName() }}</ion-note></ion-item>
+      <ion-item>
+        <h2 item-left>Deck</h2>
+        <ion-grid>
+          <ion-col *ngIf="beziqueCardGame.deck.playingCards">
+            <p>{{ beziqueCardGame.deck.playingCards.stack.length }} cards remaining</p>
+          </ion-col>
+          <ion-col *ngIf="beziqueCardGame.deck.upcard">
+            <p>Trump card: {{ beziqueCardGame.deck.upcard.longName() }}</p>
+          </ion-col>
+        </ion-grid>
+      </ion-item>
     </ion-list>
   </ion-card>
 
@@ -37,6 +44,6 @@
     </ion-list>
   </ion-card>
 
-  <player *ngIf="beziqueCardGame.inTurn" [player]="beziqueCardGame.inTurn"></player>
+  <player *ngIf="beziqueCardGame.inTurn" [player]="beziqueCardGame.inTurn" showActions="true"></player>
 
 </ion-content>

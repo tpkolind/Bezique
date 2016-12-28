@@ -1,6 +1,11 @@
 <ion-list>
-    <ion-item *ngFor="let card of cardStack.stack">
-        <ion-label>{{ card.longName() }}</ion-label>
-        <ion-checkbox [ngModel]="card.selected" (ngModelChange)="doToggleSelect(card)"></ion-checkbox>
+    <div *ngIf="selectedStack">
+        <ion-item *ngFor="let card of cardStack.stack">
+            <ion-label>{{ card.longName() }}</ion-label>
+            <ion-checkbox [ngModel]="card.selected" (ngModelChange)="doToggleSelect(card)"></ion-checkbox>
+        </ion-item>
+    </div>
+    <ion-item *ngIf="!selectedStack">
+        <p>{{ cardStack.toString() }}</p>
     </ion-item>
 </ion-list>
