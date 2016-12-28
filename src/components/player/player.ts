@@ -23,4 +23,8 @@ export class PlayerComponent {
     player.meld();
   }
 
+  public doDece(player : CardPlayer) {
+    player.dece();
+  }
+
 }

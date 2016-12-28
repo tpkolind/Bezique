@@ -6,8 +6,11 @@ export const GAME_STATES = {
   INITIAL: 'INITIAL',
   DEAL: 'DEAL',
   PLAY: 'PLAY',
+  PLAY_STAGE_2: 'PLAY_STAGE_2',
   EVALUATE: 'EVALUATE',
-  DRAW: 'DRAW'
+  EVALUATE_STAGE_2: 'EVALUATE_STAGE_2',
+  DRAW: 'DRAW',
+  DRAW_STAGE_2: 'DRAW_STAGE_2'
 }
 
 export const GAME_STATE_TRANSITIONS = {
@@ -15,11 +18,14 @@ export const GAME_STATE_TRANSITIONS = {
   'DEAL': 'PLAY',
   'PLAY': 'EVALUATE',
   'EVALUATE': (game) => {
-    return game.deck.playingCards.isEmpty() ? 'PLAY_STAGE_2' : 'DRAW'
+    return game.deck.playingCards.stack.length <= 2 ? 'DRAW_STAGE_2' : 'DRAW'
   },
   'DRAW': 'PLAY',
+  'DRAW_STAGE_2': 'PLAY_STAGE_2',
   'PLAY_STAGE_2': 'EVALUATE_STAGE_2',
-  'EVALUATE_STAGE_2': 'PLAY_STAGE_2'
+  'EVALUATE_STAGE_2': (game : CardGame) => {
+    return game.roundWinner.hand.isEmpty() ? 'DEAL' : 'PLAY_STAGE_2'
+  }
 }
 
 /**
@@ -125,7 +131,7 @@ export class CardGame {
   public nextState() {
     var nextStateFunction = GAME_STATE_TRANSITIONS[this.state];
     this.state = typeof nextStateFunction === 'string' ? nextStateFunction : nextStateFunction(this);
-    if (this.state === GAME_STATES.EVALUATE) {
+    if (this.state === GAME_STATES.EVALUATE || this.state === GAME_STATES.EVALUATE_STAGE_2) {
       this.completeRound();
     }
   }
@@ -178,6 +184,10 @@ export class CardGame {
     this.inTurn = this.playerOrder[0];
   }
 
+  public validDece() : PlayingCard {
+    return new PlayingCard('7', this.trumpSuit);
+  }
+
 }
 
 /**
@@ -204,7 +214,7 @@ export class BeziqueCardGame extends CardGame {
     this.deck.drawUpCard();
     this.trumpSuit = this.deck.upcard.suit;
     super.deal();
-    this.simulateRound(22);
+    // this.simulateRound(22);
   }
 
   /**

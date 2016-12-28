@@ -4,6 +4,9 @@
     <button ion-button item-right (click)="doDraw(player)" [disabled]="!(player.canDraw())">
       Draw
     </button>
+    <button ion-button item-right (click)="doDece(player)" [disabled]="!(player.canDece())">
+      Dece
+    </button>
     <button ion-button item-right (click)="doPlay(player)" [disabled]="!(player.canPlay())">
       Play
     </button>
