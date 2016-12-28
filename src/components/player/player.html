@@ -21,7 +21,7 @@
   <cards [cardStack]="player.melds" [selectedStack]="player.selectedCards"></cards>
   <ion-item-divider color="light">
     Available melds
-    <button ion-button item-right (click)="doMeld(player)" [disabled]="!(player.canMeld())">
+    <button ion-button item-right (click)="doMeld(player)" [disabled]="!(player.canMeld())" *ngIf="showActions">
       Meld
     </button>
   </ion-item-divider>
