@@ -17,32 +17,52 @@
 
 <ion-content>
   <ion-card>
-    <ion-list>
-      <ion-item>
-        <h2 item-left>Deck</h2>
+      <ion-item-divider>
         <ion-grid>
-          <ion-col *ngIf="beziqueCardGame.deck.playingCards">
-            <p>{{ beziqueCardGame.deck.playingCards.stack.length }} cards remaining</p>
-          </ion-col>
-          <ion-col *ngIf="beziqueCardGame.deck.upcard">
-            <p>Trump card: {{ beziqueCardGame.deck.upcard.longName() }}</p>
-          </ion-col>
+          <ion-row>
+            <ion-col>Deck</ion-col>
+            <ion-col>Trump card</ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item-divider>
+      <ion-item>
+        <ion-grid>
+          <ion-row>
+            <ion-col *ngIf="beziqueCardGame.deck.playingCards">
+              {{ beziqueCardGame.deck.playingCards.stack.length }} cards remaining
+            </ion-col>
+            <ion-col *ngIf="beziqueCardGame.deck.upcard">
+              {{ beziqueCardGame.deck.upcard.longName() }}
+            </ion-col>
+          </ion-row>
         </ion-grid>
       </ion-item>
-    </ion-list>
   </ion-card>
 
   <ion-card>
-    <ion-item-divider>
-      Current round
-    </ion-item-divider>
-    <ion-list>
-      <ion-item *ngFor="let player of beziqueCardGame.playerOrder">
-        {{ player.name }}
-        <ion-note item-right *ngIf="player.playedCards" [color]="beziqueCardGame.roundWinner === player ? 'primary' : 'default'">{{ player.playedCards.toString() }}
-        </ion-note>
-      </ion-item>
-    </ion-list>
+      <ion-item-divider>
+        <ion-grid>
+          <ion-row>
+            <ion-col *ngFor="let player of beziqueCardGame.playerOrder">
+                {{ player.name }}
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item-divider>
+      <ion-item-divider>
+        <ion-grid>
+          <ion-row>
+            <ion-col *ngFor="let player of beziqueCardGame.playerOrder">
+              <ion-note 
+                *ngIf="player.playedCards" 
+                [color]="beziqueCardGame.roundWinner === player ? 'primary' : 'default'"
+                >
+                {{ player.playedCards.toString() }}
+              </ion-note>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item-divider>
   </ion-card>
 
   <player *ngIf="beziqueCardGame.inTurn" [player]="beziqueCardGame.inTurn" showActions="true"></player>
