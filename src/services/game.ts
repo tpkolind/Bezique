@@ -3,11 +3,19 @@ import { Deck, PlayingCard, beziqueDeckConfiguration } from './deck';
 import { CardPlayer, defaultPlayerConfiguration } from './player';
 
 export const GAME_STATES = {
+    INITIAL: 'INITIAL',
+    DEAL: 'DEAL',
+    PLAY: 'PLAY',
+    EVALUATE: 'EVALUATE',
+    DRAW: 'DRAW' 
+}
+
+export const GAME_STATE_TRANSITIONS = {
     'INITIAL': 'DEAL',
     'DEAL': 'PLAY',
     'PLAY': 'EVALUATE',
     'EVALUATE': 'DRAW',
-    'DRAW': 'PLAY' 
+    'DRAW': 'PLAY'    
 }
 
 export class CardGame {
@@ -39,7 +47,7 @@ export class CardGame {
         this.playerOrder = [];
         this.upcard = undefined;
         this.inTurn = undefined;
-        this.state = GAME_STATES.INITIAL;
+        this.state = GAME_STATES.DEAL;
     }
 
     public nextTurn() {
@@ -54,8 +62,8 @@ export class CardGame {
     }
 
     public nextState() {
-        this.state = GAME_STATES[this.state];
-        if (this.state === 'EVALUATE') {
+        this.state = GAME_STATE_TRANSITIONS[this.state];
+        if (this.state === GAME_STATES.EVALUATE) {
             this.completeRound();
         }
     }
