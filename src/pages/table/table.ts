@@ -9,8 +9,11 @@ export class TablePage {
 
   constructor(public beziqueCardGame : BeziqueCardGame) {}
 
-  // Need to modify: change to new hand
-  public doCompleteRound() {
-    this.beziqueCardGame.completeRound();
+  public doDeal() {
+    this.beziqueCardGame.deal();
+  }
+
+  public doReset() {
+    this.beziqueCardGame.reset();
   }
 }

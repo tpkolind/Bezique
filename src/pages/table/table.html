@@ -1,12 +1,21 @@
 <ion-header>
   <ion-navbar>
+    <ion-buttons start>
+      <button ion-button color="default" (click)="doReset()">
+        Reset
+      </button>
+    </ion-buttons>
     <ion-title>Table ({{ beziqueCardGame.state }})</ion-title>
+    <ion-buttons end>
+      <button ion-button color="default" (click)="doDeal()" [disabled]="beziqueCardGame.dealt">
+        Deal
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
   <ion-card>
-    <ion-card-header>Stack</ion-card-header>
     <ion-list>
       <ion-item>Deck<ion-note item-right *ngIf="beziqueCardGame.deck.playingCards">{{ beziqueCardGame.deck.playingCards.stack.length }} cards remaining</ion-note></ion-item>
     </ion-list>
@@ -20,12 +29,14 @@
       Current round
     </ion-item-divider>
     <ion-list>
-      <ion-item *ngFor="let player of beziqueCardGame.players">
+      <ion-item *ngFor="let player of beziqueCardGame.playerOrder">
         {{ player.name }}
         <ion-note item-right *ngIf="player.playedCards" [color]="beziqueCardGame.roundWinner === player ? 'primary' : 'default'">{{ player.playedCards.toString() }}
         </ion-note>
       </ion-item>
     </ion-list>
   </ion-card>
+
+  <player *ngIf="beziqueCardGame.inTurn" [player]="beziqueCardGame.inTurn"></player>
 
 </ion-content>
