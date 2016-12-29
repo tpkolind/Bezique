@@ -1,7 +1,7 @@
 <ion-grid>
   <ion-row>
     <ion-col 
-      *ngIf="beziqueCardGame.deck.playingCards" 
+      *ngIf="beziqueCardGame.deck" 
       width-20
       [ngClass]="{
         'actionable' : beziqueCardGame.inTurnCanDraw() || !beziqueCardGame.dealt,
@@ -9,13 +9,14 @@
       }"
       (click)="doStackAction()">
       <playing-card 
+        *ngIf="beziqueCardGame.deck"
         [card]="beziqueCardGame.deck.playingCards.stack[0]" 
         size="100px" 
         showFace="false">
       </playing-card>
     </ion-col>
     <ion-col 
-      *ngIf="beziqueCardGame.deck.upcard" 
+      *ngIf="beziqueCardGame.deck && beziqueCardGame.deck.upcard" 
       width-20
       [ngClass]="{
         'actionable' : beziqueCardGame.inTurnCanDece(),
