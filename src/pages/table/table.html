@@ -28,9 +28,15 @@
   <ion-fab top right #fab>
     <button ion-fab mini><ion-icon name="add"></ion-icon></button>
     <ion-fab-list>
-      <button ion-fab color="default" (click)="doReset(fab)">
-        Reset
-      </button>
+      <button ion-fab *ngIf="!authService.authenticated()"><ion-icon name="logo-googleplus" (click)="doLogin(fab)"></ion-icon></button>
+      <button ion-fab *ngIf="!authService.authenticated()"><ion-icon name="logo-facebook" (click)="doLogin(fab)"></ion-icon></button>
+      <button ion-fab *ngIf="authService.authenticated()"color="default" (click)="doLogout(fab)">Logout</button>
+      <button ion-fab (click)="doCreateGame(fab)">Start</button>
     </ion-fab-list>
   </ion-fab>
+  <ion-footer>
+    <ion-toolbar>
+      <p>{{ authService.displayName() }}</p>
+    </ion-toolbar>
+  </ion-footer>
 </ion-content>

@@ -1,5 +1,8 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import { AngularFireModule, AuthMethods, AuthProviders } from 'angularfire2';
+
+
 import { MyApp } from './app.component';
 import { PlayerPage } from '../pages/player/player';
 import { DeckPage } from '../pages/deck/deck';
@@ -9,6 +12,15 @@ import { CardsComponent } from '../components/cards/cards'
 import { PlayerComponent } from '../components/player/player'
 import { PlayingTableComponent } from '../components/playing-table/playing-table'
 import { PlayingCardComponent } from '../components/playing-card/playing-card'
+
+
+export const firebaseConfig = {
+  apiKey: "AIzaSyBfyxvQJpO2vUodmvflT4a3WG1Yyo_aNwc",
+  authDomain: "beziquecardapp.firebaseapp.com",
+  databaseURL: "https://beziquecardapp.firebaseio.com",
+  storageBucket: "beziquecardapp.appspot.com",
+  messagingSenderId: "172301089862"
+};
 
 @NgModule({
   declarations: [
@@ -23,7 +35,11 @@ import { PlayingCardComponent } from '../components/playing-card/playing-card'
     PlayingTableComponent,
   ],
   imports: [
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    AngularFireModule.initializeApp(firebaseConfig, {
+      provider: AuthProviders.Google,
+      method: AuthMethods.Popup 
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [

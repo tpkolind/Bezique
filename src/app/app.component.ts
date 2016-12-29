@@ -3,12 +3,13 @@ import { Platform } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 
 import { GamePage } from '../pages/game/game';
-import { BeziqueCardGame } from '../services/game'; 
+import { BeziqueCardGame } from '../services/game';
+import { AuthService } from '../providers/auth-service';
 
 
 @Component({
   templateUrl: 'app.html',
-  providers: [BeziqueCardGame]
+  providers: [BeziqueCardGame, AuthService]
 })
 export class MyApp {
   rootPage = GamePage;
