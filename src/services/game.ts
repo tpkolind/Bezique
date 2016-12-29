@@ -2,15 +2,89 @@ import { Injectable } from '@angular/core'
 import { Deck, PlayingCard, beziqueDeckConfiguration, Suits } from './deck';
 import { CardPlayer, defaultPlayerConfiguration } from './player';
 
+export const EVALUATION_DELAY = 1000;
+
 export const GAME_STATES = {
-  INITIAL: 'INITIAL',
-  DEAL: 'DEAL',
-  PLAY: 'PLAY',
-  PLAY_STAGE_2: 'PLAY_STAGE_2',
-  EVALUATE: 'EVALUATE',
-  EVALUATE_STAGE_2: 'EVALUATE_STAGE_2',
-  DRAW: 'DRAW',
-  DRAW_STAGE_2: 'DRAW_STAGE_2'
+  INITIAL: {
+    name: 'INITIAL',
+    canDeal: false,
+    canDraw: false,
+    canMeld: false,
+    canPlay: false,
+    multiselect: false,
+    action: function(game) {}
+  },
+  DEAL: {
+    name: 'DEAL',
+    canDeal: true,
+    canDraw: false,
+    canMeld: false,
+    canPlay: false,
+    multiselect: false,
+    action: function(game) {}
+  },
+  PLAY: {
+    name: 'PLAY',
+    canDeal: false,
+    canDraw: false,
+    canMeld: false,
+    canPlay: true,
+    multiselect: false,
+    action: function(game) {}
+  },
+  PLAY_STAGE_2: {
+    name: 'PLAY_STAGE_2',
+    canDeal: false,
+    canDraw: false,
+    canMeld: false,
+    canPlay: true,
+    multiselect: false,
+    action: function(game) {}
+  },
+  EVALUATE: {
+    name: 'EVALUATE',
+    canDeal: false,
+    canDraw: false,
+    canMeld: false,
+    canPlay: false,
+    multiselect: false,
+    action: (game) => {
+      setTimeout(() => {
+        game.completeRound();
+      }, EVALUATION_DELAY);
+    }
+  },
+  EVALUATE_STAGE_2: {
+    name: 'EVALUATE_STAGE_2',
+    canDeal: false,
+    canDraw: false,
+    canMeld: false,
+    canPlay: false,
+    multiselect: false,
+    action: (game) => {
+      setTimeout(() => {
+        game.completeRound();
+      }, EVALUATION_DELAY);
+    }
+  },
+  DRAW: {
+    name: 'DRAW',
+    canDeal: false,
+    canDraw: true,
+    canMeld: true,
+    canPlay: false,
+    multiselect: true,
+    action: function(game) {}
+  },
+  DRAW_STAGE_2: {
+    name: 'DRAW_STAGE_2',
+    canDeal: false,
+    canDraw: true,
+    canMeld: false,
+    canPlay: false,
+    multiselect: false,
+    action: function(game) {}
+  }
 }
 
 export const GAME_STATE_TRANSITIONS = {
@@ -56,7 +130,7 @@ export class CardGame {
   /**
    * Stage of the card game
    */
-  public state: string = GAME_STATES.DEAL;
+  public state = GAME_STATES.DEAL;
 
   /**
    * Array of players participating in the game
@@ -128,13 +202,10 @@ export class CardGame {
    * Move to the next game stage. If we are evaluating, complete the round
    */
   public nextState() {
-    var nextStateFunction = GAME_STATE_TRANSITIONS[this.state];
-    this.state = typeof nextStateFunction === 'string' ? nextStateFunction : nextStateFunction(this);
-    if (this.state === GAME_STATES.EVALUATE || this.state === GAME_STATES.EVALUATE_STAGE_2) {
-      setTimeout(() => {
-        this.completeRound();
-      }, 5000)
-    }
+    var nextStateFunction = GAME_STATE_TRANSITIONS[this.state.name];
+    var nextStateName = typeof nextStateFunction === 'string' ? nextStateFunction : nextStateFunction(this);
+    this.state = GAME_STATES[nextStateName];
+    this.state.action(this);
   }
 
   /**

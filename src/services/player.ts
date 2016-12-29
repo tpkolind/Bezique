@@ -41,10 +41,7 @@ export class CardPlayer {
 		return this.hand.stack.length + this.melds.stack.length < this.playerConfig.maxHandLength &&
 			this.game.dealt && 
 			this.game.deck.playingCards.stack.length > 0 &&
-			(
-				this.game.state === GAME_STATES.DRAW || 
-				this.game.state === GAME_STATES.DRAW_STAGE_2
-			);
+			this.game.state.canDraw;
 	}
 
   /** Draw cards from the game deck */
@@ -78,7 +75,7 @@ export class CardPlayer {
 		return this.game.inTurn === this && 
 			this.selectedCards.stack.length >= this.playerConfig.minMeldableCards &&
 			this.selectedCards.stack.length <= this.playerConfig.maxMeldableCards &&
-			this.game.state === GAME_STATES.DRAW;
+			this.game.state.canMeld;
 	}
 
   /** Meld the selected cards */
