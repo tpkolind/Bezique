@@ -72,7 +72,7 @@ export class CardPlayer {
 	public canMeld() {
 		this.availableMelds = [];
 		this.calculateMelds();
-		return (this.availableMelds.length > 0);
+		return (this.availableMelds.length > 0) && this.game.state.canMeld && this.inTurn();
 		/*
 		return this.game.inTurn === this && 
 			this.selectedCards.stack.length >= this.playerConfig.minMeldableCards &&
