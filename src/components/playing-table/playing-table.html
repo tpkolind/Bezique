@@ -1,0 +1,37 @@
+<ion-card>
+  <ion-grid>
+    <ion-row>
+      <ion-col 
+        *ngIf="beziqueCardGame.deck.playingCards" 
+        width-20
+        [ngClass]="{'actionable' : beziqueCardGame.inTurnCanDraw() || !beziqueCardGame.dealt}"
+        (click)="doStackAction()">
+        <playing-card 
+          [card]="beziqueCardGame.deck.playingCards.stack[0]" 
+          size="100px" 
+          showFace="false">
+        </playing-card>
+      </ion-col>
+      <ion-col 
+        *ngIf="beziqueCardGame.deck.upcard" 
+        width-20
+        [ngClass]="{'actionable' : beziqueCardGame.inTurnCanDece()}"
+        (click)="doDece()">
+        <playing-card 
+          [card]="beziqueCardGame.deck.upcard" 
+          size="100px" 
+          showFace="true">
+        </playing-card>
+      </ion-col>
+      <ion-col width-20>
+      </ion-col>
+      <ion-col 
+        *ngFor="let player of beziqueCardGame.players"
+        width-20
+        [ngClass]="{'actionable' : player.canPlay()}"
+        (click)="doPlay(player)">
+        <playing-card [card]="player.playedCards.stack[0]" size="100px" showFace="true" *ngIf="!player.playedCards.isEmpty()"></playing-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-card>

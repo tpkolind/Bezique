@@ -7,6 +7,7 @@ import { GamePage } from '../pages/game/game';
 import { TablePage } from '../pages/table/table';
 import { CardsComponent } from '../components/cards/cards'
 import { PlayerComponent } from '../components/player/player'
+import { PlayingTableComponent } from '../components/playing-table/playing-table'
 import { PlayingCardComponent } from '../components/playing-card/playing-card'
 
 @NgModule({
@@ -18,7 +19,8 @@ import { PlayingCardComponent } from '../components/playing-card/playing-card'
     GamePage,
     CardsComponent,
     PlayerComponent,
-    PlayingCardComponent
+    PlayingCardComponent,
+    PlayingTableComponent,
   ],
   imports: [
     IonicModule.forRoot(MyApp)
