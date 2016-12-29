@@ -102,6 +102,10 @@ export class CardPlayer {
 		this.orderHand();
 	}
 
+	public inTurn() {
+		return this === this.game.inTurn;
+	}
+
 	/** Sort the hand according to the deck configuration */
 	public orderHand() {
 		this.hand.stack.sort((cardA, cardB) => {
