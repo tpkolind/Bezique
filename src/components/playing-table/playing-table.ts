@@ -27,7 +27,9 @@ export class PlayingTableComponent {
   }
 
   public doDece() {
-    this.beziqueCardGame.inTurn.dece();
+    if (this.beziqueCardGame.inTurnCanDece()) {
+      this.beziqueCardGame.inTurn.dece();
+    }
   }
 
   public doPlay(player : CardPlayer) {
