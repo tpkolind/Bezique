@@ -22,6 +22,9 @@ export class CardsComponent {
   @Input()
   public multiSelect : boolean;
 
+  @Input()
+  public size : string = '75px';
+
   public doToggleSelect(card : PlayingCard) {
     card.toggleSelect(this.selectedStack, this.multiSelect);
   }
