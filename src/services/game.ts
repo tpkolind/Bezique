@@ -152,9 +152,7 @@ export class CardGame {
    */
   public roundWinner: CardPlayer;
 
-  constructor() { 
-    this.reset();
-  }
+  constructor() {}
 
   /**
    * Create a player in the game
