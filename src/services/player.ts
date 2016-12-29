@@ -100,6 +100,7 @@ export class CardPlayer {
 	/** Dece the selected card */
 	public dece() {
 		this.game.deck.swapUpCard(this.selectedCards.stack[0]);
+		this.selectedCards.stack[0].selected = false;
 		this.selectedCards.clear();
 		this.orderHand();
 	}
