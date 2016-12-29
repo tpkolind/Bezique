@@ -1,21 +1,22 @@
-<ion-card>
-  <ion-item-divider [color]="player.game.inTurn === player ? 'primary' : 'light'">
+  <ion-item-divider [color]="player.game.inTurn === player ? 'primary' : 'light'" *ngIf="!showActions">
     {{ player.name }}
     <button ion-button item-right (click)="doMeld(player)" [disabled]="!(player.canMeld())" *ngIf="showActions">
       Meld
     </button>
   </ion-item-divider>
-  <cards 
-    [cardStack]="player.hand" 
-    [selectedStack]="showActions ? player.selectedCards : undefined" 
-    [multiSelect]="player.game.state.multiselect">
-  </cards>
-  <ion-item-divider color="dark" *ngIf="!player.melds.isEmpty()">
-    Melds
-  </ion-item-divider>
-  <cards [cardStack]="player.melds" [selectedStack]="player.selectedCards"></cards>
-  <ion-item-divider color="light" *ngIf="!player.wonCards.isEmpty()">
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <cards 
+          [cardStack]="player.hand" 
+          [selectedStack]="showActions ? player.selectedCards : undefined" 
+          [multiSelect]="player.game.state.multiselect"
+          size="100px">
+        </cards>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-item-divider color="light" *ngIf="!player.wonCards.isEmpty() && !showActions">
     Won cards
   </ion-item-divider>
-  <cards [cardStack]="player.wonCards" *ngIf="!player.wonCards.isEmpty()"></cards>
-</ion-card>
+  <cards [cardStack]="player.wonCards" *ngIf="!player.wonCards.isEmpty() && !showActions"></cards>
