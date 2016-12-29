@@ -20,13 +20,6 @@ export class CardsComponent {
   public selectedStack : CardStack;
 
   public doToggleSelect(card : PlayingCard) {
-    card.selected = !card.selected;
-    if (this.selectedStack) {
-      if (card.selected) {
-        this.selectedStack.add(card);
-      } else {
-        this.selectedStack.remove(card);
-      }
-    }
+    card.toggleSelect(this.selectedStack);
   }
 }

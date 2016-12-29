@@ -51,6 +51,17 @@ export class PlayingCard {
 	constructor (public rank : string, public suit : string) {
 	}
 
+	public toggleSelect(selectionStack : CardStack) {
+		this.selected = !this.selected;
+		if (selectionStack) {
+			if (this.selected) {
+				selectionStack.add(this);
+			} else {
+				selectionStack.remove(this);
+			}
+		}
+	}
+
 	public moveToStack(newStack) {
 		if (this.owningStack) {
 			this.owningStack.remove(this);
