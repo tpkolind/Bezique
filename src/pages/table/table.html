@@ -13,6 +13,18 @@
 </ion-header>-->
 
 <ion-content>
+  <ion-grid ion-fixed class="table-top">
+    <ion-row class="playing-area">
+      <ion-col>
+        <playing-table></playing-table>
+      </ion-col>
+    </ion-row>
+    <ion-row class="player-area">
+      <ion-col>
+        <player *ngIf="beziqueCardGame.inTurn" [player]="beziqueCardGame.inTurn" showActions="true"></player>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
   <ion-fab top right #fab>
     <button ion-fab mini><ion-icon name="add"></ion-icon></button>
     <ion-fab-list>
@@ -21,6 +33,4 @@
       </button>
     </ion-fab-list>
   </ion-fab>
-  <playing-table></playing-table>
-  <player *ngIf="beziqueCardGame.inTurn" [player]="beziqueCardGame.inTurn" showActions="true"></player>
 </ion-content>
