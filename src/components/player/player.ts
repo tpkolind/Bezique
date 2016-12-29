@@ -13,7 +13,7 @@ export class PlayerComponent {
 
   @Input()
   public showActions : Boolean = false;
-  
+    
   public doDraw(player : CardPlayer) {
     player.game.draw();
   }
@@ -24,6 +24,10 @@ export class PlayerComponent {
 
   public doMeld(player : CardPlayer) {
     player.meld();
+  }
+
+  public canMeld(player : CardPlayer) {
+    player.canMeld();
   }
 
   public doDece(player : CardPlayer) {
