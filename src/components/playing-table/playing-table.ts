@@ -33,8 +33,14 @@ export class PlayingTableComponent {
   }
 
   public doPlay(player : CardPlayer) {
-    if (player.canPlay() && this.beziqueCardGame.inTurn === player) {
+    if (player.canPlay() && player.inTurn()) {
       player.play();
+    }
+  }
+
+  public doMeld(player : CardPlayer) {
+    if (player.canMeld() && player.inTurn()) {
+      player.meld();
     }
   }
 }

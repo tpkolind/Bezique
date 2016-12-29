@@ -41,4 +41,19 @@
       <playing-card [card]="player.playedCards.stack[0]" size="100px" showFace="true" *ngIf="!player.playedCards.isEmpty()"></playing-card>
     </ion-col>
   </ion-row>
+  <ion-row>
+    <ion-col
+      *ngFor="let player of beziqueCardGame.players"
+      [ngClass]="{
+        'actionable' : player.canMeld(),
+        'card-in-stack': true
+      }"
+      (click)="doMeld(player)">
+      <cards 
+        [cardStack]="player.melds" 
+        [selectedStack]="player.inTurn() ? player.selectedCards : undefined" 
+        [multiSelect]="player.game.state.multiselect">
+      </cards>
+    </ion-col>
+  </ion-row>
 </ion-grid>
