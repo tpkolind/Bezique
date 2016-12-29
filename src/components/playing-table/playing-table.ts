@@ -20,7 +20,9 @@ export class PlayingTableComponent {
     if (!this.beziqueCardGame.dealt) {
       this.beziqueCardGame.deal();
     } else {
-      this.beziqueCardGame.draw();
+      if (this.beziqueCardGame.inTurnCanDraw()) {
+        this.beziqueCardGame.draw();
+      }
     }
   }
 
