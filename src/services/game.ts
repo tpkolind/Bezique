@@ -240,6 +240,18 @@ export class CardGame {
     })
   }
 
+  public inTurnCanDraw() {
+    return this.inTurn ? this.inTurn.canDraw() : false;
+  }
+
+  public inTurnCanDece() {
+    return this.inTurn ? this.inTurn.canDece() : false;
+  }
+
+  public inTurnCanPlay() {
+    return this.inTurn ? this.inTurn.canPlay() : false;
+  }
+
   /**
    * In the play order draw a card for each player in the game
    */

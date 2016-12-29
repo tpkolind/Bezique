@@ -1,17 +1,8 @@
 <ion-card>
   <ion-item-divider [color]="player.game.inTurn === player ? 'primary' : 'light'">
     {{ player.name }}
-    <button ion-button item-right (click)="doDraw(player)" [disabled]="!(player.canDraw())" *ngIf="showActions">
-      Draw
-    </button>
-    <button ion-button item-right (click)="doDece(player)" [disabled]="!(player.canDece())" *ngIf="showActions">
-      Dece
-    </button>
     <button ion-button item-right (click)="doMeld(player)" [disabled]="!(player.canMeld())" *ngIf="showActions">
       Meld
-    </button>
-    <button ion-button item-right (click)="doPlay(player)" [disabled]="!(player.canPlay())" *ngIf="showActions">
-      Play
     </button>
   </ion-item-divider>
   <cards 
