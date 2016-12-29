@@ -51,9 +51,16 @@ export class PlayingCard {
 	constructor (public rank : string, public suit : string) {
 	}
 
-	public toggleSelect(selectionStack : CardStack) {
-		this.selected = !this.selected;
+	public toggleSelect(selectionStack : CardStack, multiSelect : boolean = false) {
+		var previouslySelected = this.selected;
 		if (selectionStack) {
+			if (!multiSelect) {
+				selectionStack.stack.forEach((card) => {
+					card.selected = false;
+					selectionStack.remove(card);
+				});
+			}
+			this.selected = !previouslySelected;
 			if (this.selected) {
 				selectionStack.add(this);
 			} else {

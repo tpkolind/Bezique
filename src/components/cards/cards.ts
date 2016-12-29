@@ -19,7 +19,10 @@ export class CardsComponent {
   @Input()
   public selectedStack : CardStack;
 
+  @Input()
+  public multiSelect : boolean;
+
   public doToggleSelect(card : PlayingCard) {
-    card.toggleSelect(this.selectedStack);
+    card.toggleSelect(this.selectedStack, this.multiSelect);
   }
 }

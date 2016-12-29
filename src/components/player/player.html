@@ -14,7 +14,11 @@
       Play
     </button>
   </ion-item-divider>
-  <cards [cardStack]="player.hand" [selectedStack]="showActions ? player.selectedCards : undefined"></cards>
+  <cards 
+    [cardStack]="player.hand" 
+    [selectedStack]="showActions ? player.selectedCards : undefined" 
+    [multiSelect]="player.game.state.multiselect">
+  </cards>
   <ion-item-divider color="dark" *ngIf="!player.melds.isEmpty()">
     Melds
   </ion-item-divider>
