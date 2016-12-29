@@ -4,8 +4,8 @@
         <ion-checkbox [ngModel]="card.selected" (ngModelChange)="doToggleSelect(card)"></ion-checkbox>
     </ion-item>-->
     <ion-row wrap>
-        <ion-col *ngFor="let card of cardStack.stack" width-25>
-            <playing-card [card]="card" size="50px" showFace="true" (click)="doToggleSelect(card)"></playing-card>
+        <ion-col *ngFor="let card of cardStack.stack">
+            <playing-card [card]="card" size="100px" showFace="true" (click)="doToggleSelect(card)"></playing-card>
         </ion-col>
     </ion-row>
 </div>
