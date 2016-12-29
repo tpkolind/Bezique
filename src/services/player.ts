@@ -70,12 +70,15 @@ export class CardPlayer {
 
   /** Returns true if it is legal to meld selected cards on the next turn */
 	public canMeld() {
-		//this.calculateMelds();
-		//return 0; 
+		this.availableMelds = [];
+		this.calculateMelds();
+		return (this.availableMelds.length > 0);
+		/*
 		return this.game.inTurn === this && 
 			this.selectedCards.stack.length >= this.playerConfig.minMeldableCards &&
 			this.selectedCards.stack.length <= this.playerConfig.maxMeldableCards &&
 			this.game.state.canMeld;
+			*/
 	}
 
   /** Meld the selected cards */
@@ -124,7 +127,7 @@ export class CardPlayer {
 			switch(card.rank) {
 				// Ace cases (4As, Flush)
 				case 'A':
-					bezique.add(card);
+					aces.add(card);
 					if (card.suit === this.game.deck.trumpSuit) {
 						flush.add(card);				
 					}
@@ -141,9 +144,8 @@ export class CardPlayer {
 					if (card.suit === this.game.deck.trumpSuit) {
 						royalMarraige.add(card);
 						flush.add(card);
-					} else {
-						commonMarraige.add(card);
-					}		
+					}
+					commonMarraige.add(card);	
 					break;
 				// Queen cases (4Qs, RM, CM, Flush, Bz, DBz)
 				case 'Q':
@@ -151,9 +153,8 @@ export class CardPlayer {
 					if (card.suit === this.game.deck.trumpSuit) {
 						royalMarraige.add(card);
 						flush.add(card);
-					} else {
-						commonMarraige.add(card);
-					}	
+					} 
+					commonMarraige.add(card);
 					if (card.suit === "S") {
 						bezique.add(card);
 						doubleBezique.add(card);
@@ -174,35 +175,76 @@ export class CardPlayer {
 					break;
 			}
 		});
+		// Push available melds onto the array
+		if (this.checkMeld('b', bezique)) { this.availableMelds.push(bezique); }
+		if (this.checkMeld('db', doubleBezique)) { this.availableMelds.push(doubleBezique); }
+		if (this.checkMeld('cm', commonMarraige)) { this.availableMelds.push(commonMarraige); }
+		if (this.checkMeld('rm', royalMarraige)) { this.availableMelds.push(royalMarraige); }
+		if (this.checkMeld('a', aces)) { this.availableMelds.push(aces); }
+		if (this.checkMeld('k', kings)) { this.availableMelds.push(kings); }
+		if (this.checkMeld('q', queens)) { this.availableMelds.push(queens); }
+		if (this.checkMeld('j', jacks)) { this.availableMelds.push(jacks); }
+		if (this.checkMeld('f', flush)) { this.availableMelds.push(flush); }
 	}
 
 	/** Check functions for each of the melds. Organizational purposes (may reconfigure) */
 	private checkMeld(type : string, possibleMeld : CardStack) {
 		var hasMeld = false;
-		var tempSuit = possibleMeld.stack[0].suit;
+		//var tempSuit = possibleMeld.stack[0].suit;
 		switch(type) {
 			case 'b':
+				if (possibleMeld.stack.length < 2) {
+					return false;
+				}
 			case 'db':
-				var numJacks = 0;
-				var numQueens = 0;
+				if (type === 'db') { 
+					if (possibleMeld.stack.length < 4) {
+						return false;
+					} 
+				}
+				var numJacks = 0, numQueens = 0;
 				for (var i=0; i < possibleMeld.stack.length; i++) {
 					if (possibleMeld.stack[i].rank === "J") {	numJacks++; }
 					else if (possibleMeld.stack[i].rank === "Q") { numQueens++; }
 				}
-				if (type === 'b') { hasMeld = (numJacks == 1 && numQueens == 1 ? true : false); }
-				else { hasMeld = (numJacks == 2 && numQueens == 2 ? true : false); }
+				if (type === 'b') { hasMeld = (numJacks == 1 && numQueens == 1); }
+				else { hasMeld = (numJacks == 2 && numQueens == 2); }
 				break;
 			case 'cm':
+				var numQueens = 0, numKings = 0;
+				for (var i=0; i < possibleMeld.stack.length; i++) {
+					if (possibleMeld.stack[i].rank === "Q") {	numQueens++; }
+					else if (possibleMeld.stack[i].rank === "K") { numKings++; }
+				}
+				hasMeld = (numQueens >= 1 && numKings >= 1);
 				break;
 			case 'rm':
+				var numQueens = 0, numKings = 0;
+				for (var i=0; i < possibleMeld.stack.length; i++) {
+					if (possibleMeld.stack[i].rank === "Q") {	numQueens++; }
+					else if (possibleMeld.stack[i].rank === "K") { numKings++; }
+				}
+				hasMeld = (numQueens >= 1 && numKings >= 1);
 				break;
 			case 'a':
 			case 'k':
 			case 'q':
 			case 'j':
-				hasMeld = (possibleMeld.stack.length > 4);
+				hasMeld = (possibleMeld.stack.length >= 4);
 				break;
 			case 'f':
+				var ace = false, ten = false, king = false, queen = false, jack = false;
+				if (possibleMeld.stack.length < 5) {
+					return false;
+				}
+				for (var i=0; i < possibleMeld.stack.length; i++) {
+					if (possibleMeld.stack[i].rank === "J") {	jack = true; }
+					else if (possibleMeld.stack[i].rank === "Q") { queen = true }
+					else if (possibleMeld.stack[i].rank === "K") { king = true }
+					else if (possibleMeld.stack[i].rank === "10") { ten = true }
+					else if (possibleMeld.stack[i].rank === "A") { ace = true }
+				}
+				hasMeld = (ace && ten && king && queen && jack)
 				break;
 		}
 		return hasMeld

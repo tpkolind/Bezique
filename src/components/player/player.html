@@ -19,9 +19,17 @@
     [selectedStack]="showActions ? player.selectedCards : undefined" 
     [multiSelect]="player.game.state.multiselect">
   </cards>
-  <ion-item-divider color="dark" *ngIf="!player.melds.isEmpty()">
+  <ion-item-divider color="light" *ngIf="!player.melds.isEmpty()">
     Melds
   </ion-item-divider>
+  <ion-item-divider color="light" *ngIf="player.canMeld()">
+    Available Melds
+  </ion-item-divider>
+  <ion-row *ngFor="let meld of player.availableMelds">
+    <cards 
+    [cardStack]="meld">
+    </cards>
+  </ion-row>
   <cards [cardStack]="player.melds" [selectedStack]="player.selectedCards"></cards>
   <ion-item-divider color="light" *ngIf="!player.wonCards.isEmpty()">
     Won cards
