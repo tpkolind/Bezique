@@ -1,4 +1,5 @@
 <img 
   [src]="showFace === 'true' ? 'assets/playing-card-images/' + card.shortName() + '.svg' : 'assets/playing-card-images/RB.svg'" 
-  [ngStyle]="{ 'height': size, border: card.selected ? '2px solid black' : 'none' }"
+  [ngStyle]="{ 'height': size }"
+  [ngClass]="{'selected' : card.selected }"
 >

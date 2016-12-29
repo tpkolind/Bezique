@@ -1,3 +1,7 @@
-playing-card {
+playing-card > img {
+  position: relative;
+}
 
+playing-card > img.selected {
+  bottom: 10px;
 }
