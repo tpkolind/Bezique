@@ -1,18 +1,22 @@
 import { Injectable } from '@angular/core';
 import { AuthProviders, FirebaseAuth, FirebaseAuthState, AuthMethods } from 'angularfire2';
+import { Events } from 'ionic-angular';
 
 @Injectable()
 export class AuthService {
   private authState: FirebaseAuthState;
 
-  constructor(public auth$: FirebaseAuth) {
-    auth$.subscribe((state: FirebaseAuthState) => {
+  constructor(public auth$: FirebaseAuth, public events : Events) {
+    this.auth$.subscribe((state: FirebaseAuthState) => {
       this.authState = state;
+      let eventName : string = this.authenticated() ? 'authService:login' : 'authService:logout';
+      this.events.publish(eventName);
     });
+
   }
 
   public authenticated(): boolean {
-    return this.authState !== null;
+    return this.authState !== undefined && this.authState !== null;
   }
 
   public signInWithFacebook(): firebase.Promise<FirebaseAuthState> {

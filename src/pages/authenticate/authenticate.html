@@ -1,0 +1,23 @@
+<ion-content padding>
+  <ion-card ion-fixed>
+    <ion-card-header>Login or Signup</ion-card-header>
+    <ion-item>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <button ion-button icon-left block (click)="doLoginWithGoogle()">
+              <ion-icon name="logo-googleplus"></ion-icon>
+              Sign in with Google
+            </button>
+          </ion-col>
+          <ion-col>
+            <button ion-button icon-left block (click)="doLoginWithFacebook()">
+              <ion-icon name="logo-facebook"></ion-icon>
+              Sign in with Facebook
+            </button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-card>
+</ion-content>

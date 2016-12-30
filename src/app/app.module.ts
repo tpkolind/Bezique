@@ -4,14 +4,15 @@ import { AngularFireModule, AuthMethods, AuthProviders } from 'angularfire2';
 
 
 import { MyApp } from './app.component';
+import { AuthenticatePage } from '../pages/authenticate/authenticate';
 import { PlayerPage } from '../pages/player/player';
 import { DeckPage } from '../pages/deck/deck';
 import { GamePage } from '../pages/game/game';
 import { TablePage } from '../pages/table/table';
-import { CardsComponent } from '../components/cards/cards'
-import { PlayerComponent } from '../components/player/player'
-import { PlayingTableComponent } from '../components/playing-table/playing-table'
-import { PlayingCardComponent } from '../components/playing-card/playing-card'
+import { CardsComponent } from '../components/cards/cards';
+import { PlayerComponent } from '../components/player/player';
+import { PlayingTableComponent } from '../components/playing-table/playing-table';
+import { PlayingCardComponent } from '../components/playing-card/playing-card';
 
 
 export const firebaseConfig = {
@@ -25,6 +26,7 @@ export const firebaseConfig = {
 @NgModule({
   declarations: [
     MyApp,
+    AuthenticatePage,
     PlayerPage,
     DeckPage,
     TablePage,
@@ -44,6 +46,7 @@ export const firebaseConfig = {
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+    AuthenticatePage,
     PlayerPage,
     DeckPage,
     TablePage,
