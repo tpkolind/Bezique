@@ -1,6 +1,7 @@
 
 import { CardStack, PlayingCard } from './deck';
 import { CardGame, GAME_STATES } from './game';
+import { Meld } from './meld';
 
 export const defaultPlayerConfiguration = {
 	minHandLength : 0,
@@ -28,7 +29,7 @@ export class CardPlayer {
 	public wonCards: CardStack = new CardStack();
 
   /** The cards that can be used in melds */
-	public availableMelds: CardStack[] = [];
+	public availableMelds: Meld[] = [];
 
   /** The cards that have been selected for a meld or to play (not visible) */
 	public selectedCards: CardStack = new CardStack(false);
@@ -70,15 +71,13 @@ export class CardPlayer {
 
   /** Returns true if it is legal to meld selected cards on the next turn */
 	public canMeld() {
-		this.availableMelds = [];
-		this.calculateMelds();
-		return (this.availableMelds.length > 0) && this.game.state.canMeld && this.inTurn();
-		/*
-		return this.game.inTurn === this && 
-			this.selectedCards.stack.length >= this.playerConfig.minMeldableCards &&
-			this.selectedCards.stack.length <= this.playerConfig.maxMeldableCards &&
-			this.game.state.canMeld;
-			*/
+		if (this.game.state.canMeld) {
+			this.availableMelds = [];
+			this.calculateMelds();
+			return (this.availableMelds.length > 0) && this.inTurn()
+		} else {
+			return false;
+		}
 	}
 
   /** Meld the selected cards */
@@ -118,83 +117,76 @@ export class CardPlayer {
 	
 	/** Calculate the melds available in the player's current hand */
 	public calculateMelds() {
-		var bezique : CardStack = new CardStack(false);
-		var doubleBezique : CardStack = new CardStack(false);
-		var commonMarraige : CardStack = new CardStack(false);
-		var royalMarraige : CardStack = new CardStack(false);
-		var aces : CardStack = new CardStack(false);
-		var kings : CardStack = new CardStack(false);
-		var queens : CardStack = new CardStack(false);
-		var jacks : CardStack = new CardStack(false);
-		var flush : CardStack = new CardStack(false);
+		// CardStack to hold the 8 possible melds 
+		var stacks : CardStack[] = [];
+		for (var i = 0; i <= 8; i++) {
+			stacks[i] = new CardStack();
+		}
+		var map = {'b':0, 'db':1, 'cm':2, 'rm':3, 'a':4, 'k':5, 'q':6, 'j':7, 'f':8};
 		this.hand.stack.forEach((card) => {
 			switch(card.rank) {
 				// Ace cases (4As, Flush)
 				case 'A':
-					aces.add(card);
+					stacks[map.a].add(card);
 					if (card.suit === this.game.deck.trumpSuit) {
-						flush.add(card);				
+						stacks[map.f].add(card);				
 					}
 					break;
 				// 10 cases (Flush)
 				case '10':
 					if (card.suit === this.game.deck.trumpSuit) {
-						flush.add(card);
+						stacks[map.f].add(card);
 					}
 					break;
 				// King cases (4Ks, RM, CM, Flush)
 				case 'K':
-					kings.add(card);
+					stacks[map.k].add(card);
 					if (card.suit === this.game.deck.trumpSuit) {
-						royalMarraige.add(card);
-						flush.add(card);
+						stacks[map.rm].add(card);
+						stacks[map.f].add(card);
 					}
-					commonMarraige.add(card);	
+					stacks[map.cm].add(card);	
 					break;
 				// Queen cases (4Qs, RM, CM, Flush, Bz, DBz)
 				case 'Q':
-					queens.add(card);
+					stacks[map.q].add(card);
 					if (card.suit === this.game.deck.trumpSuit) {
-						royalMarraige.add(card);
-						flush.add(card);
+						stacks[map.rm].add(card);
+						stacks[map.f].add(card);
 					} 
-					commonMarraige.add(card);
+					stacks[map.cm].add(card);
 					if (card.suit === "S") {
-						bezique.add(card);
-						doubleBezique.add(card);
+						stacks[map.b].add(card);
+						stacks[map.db].add(card);
 					}
 					break;
 				// Jack cases (4Js, Flush, Bz, DBz)
 				case 'J':
-					jacks.add(card);
+					stacks[map.j].add(card);
 					if (card.suit === this.game.deck.trumpSuit) {
-						flush.add(card);
+						stacks[map.f].add(card);
 					}
 					if (card.suit === "D") {
-						bezique.add(card);
-						doubleBezique.add(card);
+						stacks[map.b].add(card);
+						stacks[map.db].add(card);
 					}
 					break;
 				default:
 					break;
 			}
 		});
-		// Push available melds onto the array
-		if (this.checkMeld('b', bezique)) { this.availableMelds.push(bezique); }
-		if (this.checkMeld('db', doubleBezique)) { this.availableMelds.push(doubleBezique); }
-		if (this.checkMeld('cm', commonMarraige)) { this.availableMelds.push(commonMarraige); }
-		if (this.checkMeld('rm', royalMarraige)) { this.availableMelds.push(royalMarraige); }
-		if (this.checkMeld('a', aces)) { this.availableMelds.push(aces); }
-		if (this.checkMeld('k', kings)) { this.availableMelds.push(kings); }
-		if (this.checkMeld('q', queens)) { this.availableMelds.push(queens); }
-		if (this.checkMeld('j', jacks)) { this.availableMelds.push(jacks); }
-		if (this.checkMeld('f', flush)) { this.availableMelds.push(flush); }
+		// Loop through each stack adding all cards to the meld if available
+		var types : string[] = ['b', 'db', 'cm', 'rm', 'a', 'k', 'q', 'j', 'f'];
+		types.forEach(function(type) {
+			if ( this.checkMeld(type, stacks[type]) ) {
+				this.availableMelds.push(new Meld(type, stacks[type]));
+			}
+		});
 	}
 
 	/** Check functions for each of the melds. Organizational purposes (may reconfigure) */
 	private checkMeld(type : string, possibleMeld : CardStack) {
 		var hasMeld = false;
-		//var tempSuit = possibleMeld.stack[0].suit;
 		switch(type) {
 			case 'b':
 				if (possibleMeld.stack.length < 2) {
@@ -211,7 +203,7 @@ export class CardPlayer {
 					if (possibleMeld.stack[i].rank === "J") {	numJacks++; }
 					else if (possibleMeld.stack[i].rank === "Q") { numQueens++; }
 				}
-				if (type === 'b') { hasMeld = (numJacks == 1 && numQueens == 1); }
+				if (type === 'b') { hasMeld = (numJacks >= 1 && numQueens >= 1); }
 				else { hasMeld = (numJacks == 2 && numQueens == 2); }
 				break;
 			case 'cm':
@@ -253,6 +245,7 @@ export class CardPlayer {
 		}
 		return hasMeld
 	}
+
   /** Select / unselect a playing card */
 	public toggleSelect(playingCard : PlayingCard) {
 		if (playingCard.selected) {

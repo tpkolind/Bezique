@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core'
 import { Deck, PlayingCard, beziqueDeckConfiguration, Suits } from './deck';
 import { CardPlayer, defaultPlayerConfiguration } from './player';
+import { Meld } from './Meld';
 
 export const EVALUATION_DELAY = 1000;
 
@@ -116,17 +117,6 @@ export class CardGame {
    */
   public dealt: Boolean = false;
 
-  /** The current trump suit for the game */
-  public validMelds = {
-  'Bezique': ['QS','JD'],
-  'Marriage': ['K', 'Q'],
-  'Trump Flush': ['A', '10', 'K', 'Q', 'J']
-  /* Maybe for later use
-  'Aces': ['A', 'A', 'A', 'A'],
-  'Double Bezique': ['QS', 'QS', 'JD', 'JD'],
-  Four Aces, Kings, Queens, Jacks
-  */
-  }
   /**
    * Stage of the card game
    */
