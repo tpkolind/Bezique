@@ -186,7 +186,7 @@ export class CardGame {
    * Proceed to the next player. If there are no more players proceed to the next game stage
    */
   public nextTurn() {
-    var nextPlayerIndex = this.playerOrder.indexOf(this.inTurn);
+    let nextPlayerIndex = this.playerOrder.indexOf(this.inTurn);
     if (nextPlayerIndex == -1) {
       this.inTurn = this.players[0];  // Need to modify to a random player
     } else if (nextPlayerIndex == this.playerOrder.length - 1) {
@@ -200,8 +200,8 @@ export class CardGame {
    * Move to the next game stage. If we are evaluating, complete the round
    */
   public nextState() {
-    var nextStateFunction = GAME_STATE_TRANSITIONS[this.state.name];
-    var nextStateName = typeof nextStateFunction === 'string' ? nextStateFunction : nextStateFunction(this);
+    let nextStateFunction = GAME_STATE_TRANSITIONS[this.state.name];
+    let nextStateName = typeof nextStateFunction === 'string' ? nextStateFunction : nextStateFunction(this);
     this.state = GAME_STATES[nextStateName];
     this.state.action(this);
   }
@@ -221,8 +221,8 @@ export class CardGame {
    * Determine the winner of the round
    */
   public determineRoundWinner() {
-    var playerOneCard = this.playerOrder[0].playedCards.stack[0];
-    var playerTwoCard = this.playerOrder[1].playedCards.stack[0];
+    let playerOneCard = this.playerOrder[0].playedCards.stack[0];
+    let playerTwoCard = this.playerOrder[1].playedCards.stack[0];
 
     this.roundWinner = this.deck.compareCards(playerOneCard, playerTwoCard) === -1 ? this.playerOrder[0] : this.playerOrder[1];
   }
@@ -312,7 +312,7 @@ export class BeziqueCardGame extends CardGame {
   }
 
   public simulateRound(numberOfRounds: number) {
-    for (var roundIx = 0; roundIx < numberOfRounds; roundIx++) {
+    for (let roundIx = 0; roundIx < numberOfRounds; roundIx++) {
       this.playerOrder.forEach((player) => {
         player.hand.stack[0].moveToStack(player.selectedCards);
         player.play();

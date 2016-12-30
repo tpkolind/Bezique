@@ -7,7 +7,8 @@
         'actionable' : beziqueCardGame.inTurnCanDraw() || !beziqueCardGame.dealt,
         'card-in-stack': true
       }"
-      (click)="doStackAction()">
+      (click)="doStackAction()"
+      tappable>
       <playing-card 
         *ngIf="beziqueCardGame.deck"
         [card]="beziqueCardGame.deck.playingCards.stack[0]" 
@@ -22,7 +23,8 @@
         'actionable' : beziqueCardGame.inTurnCanDece(),
         'card-in-stack' : true
       }"
-      (click)="doDece()">
+      (click)="doDece()"
+      tappable>
       <playing-card 
         [card]="beziqueCardGame.deck.upcard" 
         size="100px" 
@@ -38,7 +40,8 @@
         'actionable' : player.canPlay(),
         'card-in-stack': true
       }"
-      (click)="doPlay(player)">
+      (click)="doPlay(player)"
+      tappable>
       <playing-card [card]="player.playedCards.stack[0]" size="100px" showFace="true" *ngIf="!player.playedCards.isEmpty()"></playing-card>
     </ion-col>
   </ion-row>
@@ -49,7 +52,8 @@
         'actionable' : player.canMeld(),
         'card-in-stack': true
       }"
-      (click)="doMeld(player)">
+      (click)="doMeld(player)"
+      tappable>
       <cards 
         [cardStack]="player.melds" 
         [selectedStack]="player.inTurn() ? player.selectedCards : undefined" 
