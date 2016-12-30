@@ -1,11 +1,7 @@
 
 import { CardStack, PlayingCard } from './deck';
-<<<<<<< HEAD
 import { CardGame } from './game';
-=======
-import { CardGame, GAME_STATES } from './game';
 import { Meld } from './meld';
->>>>>>> 74a135de6ad2c82c948e98a231c6c2ef2a109f23
 
 export const defaultPlayerConfiguration = {
 	minHandLength : 0,
