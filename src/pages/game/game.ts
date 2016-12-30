@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
 import { DeckPage } from '../deck/deck';

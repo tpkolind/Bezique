@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { Deck, PlayingCard, beziqueDeckConfiguration, Suits } from './deck';
+import { Deck, beziqueDeckConfiguration } from './deck';
 import { CardPlayer, defaultPlayerConfiguration } from './player';
 
 export const EVALUATION_DELAY = 1000;
