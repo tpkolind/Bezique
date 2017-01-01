@@ -1,5 +1,6 @@
 
-import { CardStack, PlayingCard } from './deck';
+import { PlayingCard } from './playing-card';
+import { CardStack } from './deck';
 import { CardGame } from './game';
 import { Meld } from './meld';
 

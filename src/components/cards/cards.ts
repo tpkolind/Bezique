@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { PlayingCard, CardStack } from '../../services/deck';
+import { PlayingCard } from '../../services/playing-card'
+import { CardStack } from '../../services/deck';
 
 /*
   Generated class for the Cards component.

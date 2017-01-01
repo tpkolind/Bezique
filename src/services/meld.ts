@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core'
-import { CardStack, Deck, PlayingCard, beziqueDeckConfiguration, Suits } from './deck';
+import { Injectable } from '@angular/core';
+import { PlayingCard, Suits } from './playing-card';
+import { CardStack, Deck, beziqueDeckConfiguration } from './deck';
 import { CardPlayer, defaultPlayerConfiguration } from './player';
 
 export const MELD_SCORES = {

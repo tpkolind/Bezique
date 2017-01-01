@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { PlayingCard } from '../../services/deck';
+import { PlayingCard } from '../../services/playing-card';
 
 @Component({
   selector: 'playing-card',
