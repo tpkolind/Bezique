@@ -40,7 +40,10 @@
   },
   "devDependencies": {
     "@ionic/app-scripts": "0.0.48",
-    "typescript": "2.0.9"
+    "@types/jasmine": "^2.5.40",
+    "codelyzer": "^2.0.0-beta.4",
+    "tslint": "^4.2.0",
+    "typescript": "^2.1.4"
   },
   "cordovaPlugins": [
     "cordova-plugin-device",
