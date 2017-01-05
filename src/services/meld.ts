@@ -25,6 +25,9 @@ export class Meld {
 
     constructor (public name : string, public cards : CardStack) {
         this.score = MELD_SCORES[name];
+        cards.stack.forEach((card) => {
+            card.availableForMeld = true;
+        });
     }
 
     /** Check if a meld is still valid (in progress) */

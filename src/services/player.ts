@@ -121,8 +121,10 @@ export class CardPlayer {
 		// CardStack to hold the 8 possible melds 
 		var stacks : CardStack[] = [];
 		for (var i = 0; i <= 8; i++) {
-			stacks[i] = new CardStack();
+			stacks[i] = new CardStack(false);
 		}
+		// Loop through each stack adding all cards to the meld if available
+		var types : string[] = ['b', 'db', 'cm', 'rm', 'a', 'k', 'q', 'j', 'f'];
 		var map = {'b':0, 'db':1, 'cm':2, 'rm':3, 'a':4, 'k':5, 'q':6, 'j':7, 'f':8};
 		this.hand.stack.forEach((card) => {
 			switch(card.rank) {
@@ -145,8 +147,9 @@ export class CardPlayer {
 					if (card.suit === this.game.deck.trumpSuit) {
 						stacks[map.rm].add(card);
 						stacks[map.f].add(card);
+					} else {
+						stacks[map.cm].add(card);	
 					}
-					stacks[map.cm].add(card);	
 					break;
 				// Queen cases (4Qs, RM, CM, Flush, Bz, DBz)
 				case 'Q':
@@ -154,8 +157,9 @@ export class CardPlayer {
 					if (card.suit === this.game.deck.trumpSuit) {
 						stacks[map.rm].add(card);
 						stacks[map.f].add(card);
-					} 
-					stacks[map.cm].add(card);
+					} else {
+						stacks[map.cm].add(card);
+					}
 					if (card.suit === "S") {
 						stacks[map.b].add(card);
 						stacks[map.db].add(card);
@@ -176,11 +180,9 @@ export class CardPlayer {
 					break;
 			}
 		});
-		// Loop through each stack adding all cards to the meld if available
-		var types : string[] = ['b', 'db', 'cm', 'rm', 'a', 'k', 'q', 'j', 'f'];
-		types.forEach(function(type) {
-			if ( this.checkMeld(type, stacks[type]) ) {
-				this.availableMelds.push(new Meld(type, stacks[type]));
+		types.forEach((type) => {
+			if ( this.checkMeld(type, stacks[map[type]]) ) {
+				this.availableMelds.push(new Meld(type, stacks[map[type]]));
 			}
 		});
 	}
