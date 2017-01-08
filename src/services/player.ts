@@ -72,10 +72,10 @@ export class CardPlayer {
 
   /** Returns true if it is legal to meld selected cards on the next turn */
 	public canMeld() {
+		this.availableMelds = [];
 		if (this.game.state.canMeld) {
-			this.availableMelds = [];
 			this.calculateMelds();
-			return (this.availableMelds.length > 0) && this.inTurn()
+			return (this.availableMelds.length > 0) && this.inTurn();
 		} else {
 			return false;
 		}
@@ -85,6 +85,7 @@ export class CardPlayer {
 	public meld() {
 		this.selectedCards.stack.forEach((card) => {
 			card.selected = false;
+			card.availableForMeld = false;
 			card.moveToStack(this.melds);
 		});
 		this.selectedCards.clear();        
@@ -120,12 +121,13 @@ export class CardPlayer {
 	public calculateMelds() {
 		// CardStack to hold the 8 possible melds 
 		var stacks : CardStack[] = [];
-		for (var i = 0; i <= 8; i++) {
+		for (var i = 0; i <= 10; i++) {
 			stacks[i] = new CardStack(false);
 		}
+		// Variables for the types of possible melds and the map to get from types to stacks
+		var types : string[] = ['b', 'db', 'mHeart', 'mSpade', 'mDiamond', 'mClub', 'a', 'k', 'q', 'j', 'f'];
+		var map = {'b':0, 'db':1, 'mHeart':2, 'mSpade':3, 'mDiamond':4, 'mClub':5, 'a':6, 'k':7, 'q':8, 'j':9, 'f':10};
 		// Loop through each stack adding all cards to the meld if available
-		var types : string[] = ['b', 'db', 'cm', 'rm', 'a', 'k', 'q', 'j', 'f'];
-		var map = {'b':0, 'db':1, 'cm':2, 'rm':3, 'a':4, 'k':5, 'q':6, 'j':7, 'f':8};
 		this.hand.stack.forEach((card) => {
 			switch(card.rank) {
 				// Ace cases (4As, Flush)
@@ -145,25 +147,27 @@ export class CardPlayer {
 				case 'K':
 					stacks[map.k].add(card);
 					if (card.suit === this.game.deck.trumpSuit) {
-						stacks[map.rm].add(card);
 						stacks[map.f].add(card);
-					} else {
-						stacks[map.cm].add(card);	
 					}
+					if (card.suit === "H") { stacks[map.mHeart].add(card); }
+					else if (card.suit === "S") { stacks[map.mSpade].add(card); }
+					else if (card.suit === "C") { stacks[map.mClub].add(card); }
+					else if (card.suit === "D") { stacks[map.mDiamond].add(card); }
 					break;
 				// Queen cases (4Qs, RM, CM, Flush, Bz, DBz)
 				case 'Q':
 					stacks[map.q].add(card);
 					if (card.suit === this.game.deck.trumpSuit) {
-						stacks[map.rm].add(card);
 						stacks[map.f].add(card);
-					} else {
-						stacks[map.cm].add(card);
 					}
-					if (card.suit === "S") {
+					if (card.suit === "H") { stacks[map.mHeart].add(card); }
+					else if (card.suit === "S") { 
+						stacks[map.mSpade].add(card);
 						stacks[map.b].add(card);
 						stacks[map.db].add(card);
 					}
+					else if (card.suit === "C") { stacks[map.mClub].add(card); }
+					else if (card.suit === "D") { stacks[map.mDiamond].add(card); }
 					break;
 				// Jack cases (4Js, Flush, Bz, DBz)
 				case 'J':
@@ -209,15 +213,10 @@ export class CardPlayer {
 				if (type === 'b') { hasMeld = (numJacks >= 1 && numQueens >= 1); }
 				else { hasMeld = (numJacks == 2 && numQueens == 2); }
 				break;
-			case 'cm':
-				var numQueens = 0, numKings = 0;
-				for (var i=0; i < possibleMeld.stack.length; i++) {
-					if (possibleMeld.stack[i].rank === "Q") {	numQueens++; }
-					else if (possibleMeld.stack[i].rank === "K") { numKings++; }
-				}
-				hasMeld = (numQueens >= 1 && numKings >= 1);
-				break;
-			case 'rm':
+			case 'mHeart':
+			case 'mSpade':
+			case 'mDiamond':
+			case 'mClub':
 				var numQueens = 0, numKings = 0;
 				for (var i=0; i < possibleMeld.stack.length; i++) {
 					if (possibleMeld.stack[i].rank === "Q") {	numQueens++; }
@@ -238,15 +237,15 @@ export class CardPlayer {
 				}
 				for (var i=0; i < possibleMeld.stack.length; i++) {
 					if (possibleMeld.stack[i].rank === "J") {	jack = true; }
-					else if (possibleMeld.stack[i].rank === "Q") { queen = true }
-					else if (possibleMeld.stack[i].rank === "K") { king = true }
-					else if (possibleMeld.stack[i].rank === "10") { ten = true }
-					else if (possibleMeld.stack[i].rank === "A") { ace = true }
+					else if (possibleMeld.stack[i].rank === "Q") { queen = true; }
+					else if (possibleMeld.stack[i].rank === "K") { king = true; }
+					else if (possibleMeld.stack[i].rank === "10") { ten = true; }
+					else if (possibleMeld.stack[i].rank === "A") { ace = true; }
 				}
-				hasMeld = (ace && ten && king && queen && jack)
+				hasMeld = (ace && ten && king && queen && jack);
 				break;
 		}
-		return hasMeld
+		return hasMeld;
 	}
 
   /** Select / unselect a playing card */
