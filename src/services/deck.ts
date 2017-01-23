@@ -333,13 +333,12 @@ export class Deck {
 		return this.availableMelds(selectedCards).length > 0;
 	}
 
-	public meldScore(selectedCards : CardStack) : number {
+	public score(selectedCards : CardStack) : number {
 		return this.availableMelds(selectedCards).reduce((newScore, meldName) => {
 			newScore += this.config.meldScores[meldName];
 			return newScore;
 		}, 0);
 	}
-
 
 	public availableMelds(selectedCards : CardStack) : Array<string> {
 		if (selectedCards.stack.length > 1) {
