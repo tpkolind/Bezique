@@ -9,7 +9,10 @@ import { AuthService } from '../providers/auth-service';
 
 @Component({
   templateUrl: 'app.html',
-  providers: [BeziqueCardGame, AuthService]
+  providers: [
+    BeziqueCardGame, 
+    AuthService
+  ]
 })
 export class MyApp {
   rootPage = GamePage;

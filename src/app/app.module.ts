@@ -1,6 +1,6 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
-import { AngularFireModule, AuthMethods, AuthProviders } from 'angularfire2';
+// import { AngularModule, AuthMethods, AuthProviders } from 'angularfire2';
 
 
 import { MyApp } from './app.component';
@@ -15,7 +15,7 @@ import { PlayingTableComponent } from '../components/playing-table/playing-table
 import { PlayingCardComponent } from '../components/playing-card/playing-card';
 
 
-export const firebaseConfig = {
+export const baseConfig = {
   apiKey: "AIzaSyBfyxvQJpO2vUodmvflT4a3WG1Yyo_aNwc",
   authDomain: "beziquecardapp.firebaseapp.com",
   databaseURL: "https://beziquecardapp.firebaseio.com",
@@ -38,10 +38,10 @@ export const firebaseConfig = {
   ],
   imports: [
     IonicModule.forRoot(MyApp),
-    AngularFireModule.initializeApp(firebaseConfig, {
-      provider: AuthProviders.Google,
-      method: AuthMethods.Popup 
-    })
+    // AngularFireModule.initializeApp(firebaseConfig, {
+    //   provider: AuthProviders.Google,
+    //   method: AuthMethods.Popup 
+    // })
   ],
   bootstrap: [IonicApp],
   entryComponents: [
