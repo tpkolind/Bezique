@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { PlayingCard, CardDefinition } from './playing-card'
+=======
+import { PlayingCard } from './playing-card';
+>>>>>>> bac1d7e9a6fa8cdaacd97eb5a424d68b30f67e72
 
 export const defaultDeckConfiguration = {
 	decks: 1,

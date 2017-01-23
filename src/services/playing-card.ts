@@ -1,3 +1,4 @@
+
 import { CardStack } from './deck';
 
 export const Ranks = {
@@ -38,6 +39,7 @@ export class PlayingCard {
 
   /** Selected card */
 	public selected : boolean = false;
+	public availableForMeld : boolean = false;
 
 	constructor (public rank : string, public suit : string) {
 	}

@@ -5,7 +5,6 @@ import { AuthService } from '../../providers/auth-service';
 import { BeziqueCardGame } from '../../services/game';
 import { AuthenticatePage } from '../authenticate/authenticate'
 
-
 @Component({
   selector: 'page-table',
   templateUrl: 'table.html',
