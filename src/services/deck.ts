@@ -131,7 +131,7 @@ export const beziqueDeckConfiguration = {
 		}
 		return availableMelds;
 	},
-	meldScores: {
+	scores: {
 		aces: 100,
 		kings: 80,
 		queens: 60,
@@ -141,6 +141,7 @@ export const beziqueDeckConfiguration = {
 		bezique: 50,
 		doubleBezique: 250,
 		flush: 500,
+		dece: 10,
 	},
 	trump: true
 }

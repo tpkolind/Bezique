@@ -32,6 +32,8 @@ export class CardPlayer {
   /** The cards that have been selected for a meld or to play (not visible) */
 	public selectedCards: CardStack = new CardStack(false);
 
+	public score: number = 0;
+
 	constructor (public name : string, public game: CardGame, private playerConfig) {
 	}
 
@@ -74,6 +76,7 @@ export class CardPlayer {
 
   /** Meld the selected cards */
 	public meld() {
+		this.score += this.game.deck.score(this.selectedCards);
 		this.selectedCards.stack.forEach((card) => {
 			card.selected = false;
 			card.moveToStack(this.melds);
