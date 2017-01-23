@@ -24,6 +24,11 @@ export const Suits = {
 	'H': 'Hearts'  
 }
 
+export interface CardDefinition {
+	rank: string,
+	suit: string
+}
+
 /**
  * Playing card class
  */
@@ -76,4 +81,13 @@ export class PlayingCard {
 	public toString() {
 		return this.shortName();
 	}
-}
+
+	public equals(card : CardDefinition ) : boolean {
+		return (!card.rank || this.rank === card.rank) && (!card.suit || this.suit === card.suit);
+	}
+
+	public equalsCard(card : PlayingCard) : boolean {
+		return card && card.rank === this.rank && card.suit === this.suit;
+
+	}
+ }

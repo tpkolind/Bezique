@@ -37,6 +37,7 @@
   <ion-footer>
     <ion-toolbar>
       <p>{{ authService.displayName() }}</p>
+      <span *ngIf="beziqueCardGame.inTurn">{{ beziqueCardGame.inTurn.availableMelds() }}</span>
     </ion-toolbar>
   </ion-footer>
 </ion-content>
