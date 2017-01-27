@@ -6,6 +6,8 @@ import { GamePage } from '../pages/game/game';
 import { BeziqueCardGame } from '../services/game';
 import { AuthService } from '../providers/auth-service';
 
+// Test of git commit
+
 
 @Component({
   templateUrl: 'app.html',
